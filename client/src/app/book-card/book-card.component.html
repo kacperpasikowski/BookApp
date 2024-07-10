@@ -1,0 +1,17 @@
+<div class="card mb-4  h-100">
+    <div class="card-img-wrapper">
+        <img src="{{book.bookAvatarUrl}}" alt="{{book.title}}" class="card-img-top">
+    </div>
+    <div class="card-body p-1">
+        <h6 class="card-title text-center mb-2">
+            {{book.title}}
+        </h6>
+        <p class="card-text text-muted text-center fs-10" *ngIf="book.authors.length > 0 else unknownAuthors">Authors: {{book.authors}}</p>
+    </div>
+    <ng-template #unknownAuthors>
+        <p>Authors: Unknown</p>
+    </ng-template>
+</div>
+
+
+
