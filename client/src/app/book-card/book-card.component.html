@@ -3,10 +3,14 @@
         <img src="{{book.bookAvatarUrl}}" alt="{{book.title}}" class="card-img-top">
     </div>
     <div class="card-body p-1">
-        <h6 class="card-title text-center mb-2">
+        <h6 class="card-title text-center mb-2" routerLink="/book/{{book.id}}">
             {{book.title}}
         </h6>
-        <p class="card-text text-muted text-center fs-10" *ngIf="book.authors.length > 0 else unknownAuthors">Authors: {{book.authors}}</p>
+        <p class="text-center mt-3">Authors: 
+            <span *ngFor="let author of getAuthors(); let last" class="author" [routerLink]="['/author/', author.id]">
+                 {{author.name}}
+            </span>
+        </p>
     </div>
     <ng-template #unknownAuthors>
         <p>Authors: Unknown</p>

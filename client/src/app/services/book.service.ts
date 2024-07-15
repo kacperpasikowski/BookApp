@@ -15,15 +15,7 @@ export class BookService {
 
 
   getBooks(): Observable<BookSummary[]> {
-    return this.http.get<BookSummary[]>(this.apiUrl).pipe(
-      map((books: any[]) => books.map(book => ({
-        id: book.id,
-        title: book.title,
-        dateOfPublish: book.dateOfPublish,
-        bookAvatarUrl: book.bookAvatarUrl,
-        authors: book.authors.map((author: { name: string }) => author.name) 
-      })))
-    );
+    return this.http.get<BookSummary[]>(this.apiUrl);
   }
 
   getBook(id: string): Observable<BookDetail>{

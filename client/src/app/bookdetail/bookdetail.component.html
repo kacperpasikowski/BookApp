@@ -1,1 +1,51 @@
-<p>bookdetail works!</p>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Card Column -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{book.bookAvatarUrl}}" alt="{{book.title}}" class="card-img-top img-thumbnail">
+                <div class="card-body">
+                    <div class="text-center">
+                        <strong>{{book.title}}</strong>
+                    </div>
+                    <div>
+                        <p class="pt-2">Authors: 
+                            <span *ngFor="let author of getAuthors(); let last = last">
+                                <p class="book-detail" [routerLink]="['/author/', author.id]">{{author.name}}</p><span *ngIf="!last">, </span>
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <p>Published on: {{book.dateOfPublish}}</p>
+                    </div>
+                    <div>
+                        <p>Published by: {{book.publisherName}}</p>
+                    </div>
+                    <div>
+                        <p>Categories: {{getCategories()}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Description Column -->
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Description</h5>
+                    <p>{{book.description}}</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Additional Info</h5>
+                    <p>ISBN: </p>
+                    <p>Pages:</p>
+                    <p>Language:</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Reviews</h5>
+                    <p>Average Rating:</p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

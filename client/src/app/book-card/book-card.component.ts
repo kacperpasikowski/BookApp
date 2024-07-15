@@ -10,4 +10,12 @@ export class BookCardComponent {
   @Input() book!: BookSummary;
   constructor(){}
 
+
+  getAuthors(): {id: string, name: string}[]{
+    if(!this.book.authors || this.book.authors.length===0){
+      return [];
+    }
+    return this.book.authors.map(author => ({id: author.id, name: author.name}));
+  }
+
 }

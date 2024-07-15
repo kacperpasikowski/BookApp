@@ -2,9 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookCardComponent } from './book-card/book-card.component';
+import { BookdetailComponent } from './bookdetail/bookdetail.component';
+import { AuthorListComponent } from './author-list/author-list.component';
+import { AuthorDetailComponent } from './author-detail/author-detail.component';
+import { AddBookComponent } from './Admin/add-book/add-book.component';
+import { CarouselBookComponent } from './carousel-book/carousel-book.component';
 
 const routes: Routes = [
-  {path: '**', component: BookListComponent, pathMatch: 'full'}
+  {path: 'book/:id', component: BookdetailComponent},
+  {path: 'author', component: AuthorListComponent},
+  {path: 'author/:id', component: AuthorDetailComponent},
+  {path: 'admin/add', component: AddBookComponent},
+  {path: 'carousel', component: CarouselBookComponent},
+  {path: '**', component: BookListComponent, pathMatch: 'full'},
+  
 ];
 
 @NgModule({

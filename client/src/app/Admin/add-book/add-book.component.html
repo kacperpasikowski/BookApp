@@ -1,0 +1,47 @@
+<div *ngIf="bookForm" class="container mt-5">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input id="title" formControlName="title" type="text" class="form-control">
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label for="dateOfPublish" class="form-label">Date of Publish</label>
+        <input id="dateOfPublish" formControlName="dateOfPublish" type="date" class="form-control">
+      </div>
+  
+      <div class="mb-3">
+        <label for="publisherId" class="form-label">Publisher</label>
+        <select id="publisherId" formControlName="publisherId" class="form-select">
+          <option *ngFor="let publisher of publishers" [value]="publisher.id">{{ publisher.name }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="bookAvatarUrl" class="form-label">Book Avatar URL</label>
+        <input id="bookAvatarUrl" formControlName="bookAvatarUrl" type="text" class="form-control">
+      </div>
+  
+      <div class="mb-3">
+        <label for="authorIds" class="form-label">Authors</label>
+        <select id="authorIds" formControlName="authorIds" class="form-select" multiple>
+          <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="categoryIds" class="form-label">Categories</label>
+        <select id="categoryIds" formControlName="categoryIds" class="form-select" multiple>
+          <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+  </div>
+  

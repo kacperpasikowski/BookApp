@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+.carousel-inner {
+    height: 200px;
+    /* Wysokość kontenera karuzeli */
+}
+
+.carousel img {
+    max-height: 200px;
+    /* Maksymalna wysokość obrazka */
+    width: auto;
+    /* Automatyczna szerokość obrazka */
+    object-fit: contain;
+    /* Dopasuj obrazek do kontenera */
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Półprzezroczyste tło dla tekstu */
+    padding: 10px;
+    border-radius: 5px;
+}

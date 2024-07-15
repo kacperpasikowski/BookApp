@@ -38,6 +38,7 @@ namespace API.Services
 				BookAvatarUrl = book.BookAvatarUrl,
 				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
 				{
+					Id = ba.Author.Id,
 					Name = ba.Author.Name,
 
 				}).ToList(),
@@ -68,6 +69,7 @@ namespace API.Services
 				BookAvatarUrl = book.BookAvatarUrl,
 				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
 				{
+					Id = ba.Author.Id,
 					Name = ba.Author.Name,
 
 				}).ToList(),
@@ -82,7 +84,7 @@ namespace API.Services
 
 		public async Task<GetBookDto> AddBookAsync(AddBookDto addBookDto)
 		{
-			var publisher = _publisherRepository.GetPublisherByIdAsync(addBookDto.PublisherId);
+			var publisher = await _publisherRepository.GetPublisherByIdAsync(addBookDto.PublisherId);
 
 			if (publisher == null)
 			{
@@ -134,6 +136,7 @@ namespace API.Services
 				BookAvatarUrl = book.BookAvatarUrl,
 				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
 				{
+					Id = ba.Author.Id,
 					Name = ba.Author.Name,
 
 				}).ToList(),

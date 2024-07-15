@@ -31,7 +31,8 @@ namespace API.Services
 				{
 					Id = ba.Book.Id,
 					Title = ba.Book.Title,
-					DateOfPublish = ba.Book.DateOfPublish
+					DateOfPublish = ba.Book.DateOfPublish,
+					BookAvatarUrl = ba.Book.BookAvatarUrl
 				}).ToList()
 			});
 			
@@ -55,7 +56,8 @@ namespace API.Services
 				{
 					Id = ba.Book.Id,
 					Title = ba.Book.Title,
-					DateOfPublish = ba.Book.DateOfPublish
+					DateOfPublish = ba.Book.DateOfPublish,
+					BookAvatarUrl = ba.Book.BookAvatarUrl
 				}).ToList()
 			};
 		}

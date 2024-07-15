@@ -1,0 +1,27 @@
+<div class="container-fluid gray">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card m-3">
+                    <img [src]="author.authorAvatarUrl" alt="{{author.name}}" class="card-img-top img-thumbnail">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <strong>{{author.name}}</strong>
+                        </div>
+                        <div>
+                            <p><strong>Born in:</strong> {{author.dateOfBirth}}
+                            </p>
+                            <p><strong>Most Popular genre</strong> TU TRZEBA DODAĆ!!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid light-gray">
+    <div class="mb-2 light-gray container">
+        <app-carousel-book [books]="books"></app-carousel-book>
+    </div>
+</div>

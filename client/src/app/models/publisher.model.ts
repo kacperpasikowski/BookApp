@@ -1,8 +1,7 @@
 import { BookSummary } from "./book-summary.model";
 
-export interface Author{
+export interface Publisher{
     id: string;
-    name: string;
-    authorAvatarUrl: string;
+    name:string;
     books: BookSummary[];
 }
