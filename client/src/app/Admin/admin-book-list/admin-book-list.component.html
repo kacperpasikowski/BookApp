@@ -1,0 +1,98 @@
+<div class="container mt-3">
+  <h2>Manage Books</h2>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Publish Date</th>
+        <th>Publisher</th>
+        <th>Authors</th>
+        <th>Categories</th>
+        <th>Avatar</th>
+        <th class="text-center">Action Buttons</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of bookService.paginatedResult()?.items">
+        <ng-container *ngIf="!book.editing; else editMode">
+          <td><a [routerLink]="['/book', book.id]">{{ book.title }}</a></td>
+          <td>{{ book.description }}</td>
+          <td>{{ book.dateOfPublish }}</td>
+          <td>{{ book.publisherName }}</td>
+          <td>
+            <span *ngFor="let author of book.authors; let last = last">
+              {{ author.name }}<span *ngIf="!last">, </span>
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let category of book.categories; let last = last">
+              {{ category.name }}<span *ngIf="!last">, </span>
+            </span>
+          </td>
+          <td>
+            <img [src]="book.bookAvatarUrl" class="avatar-image text-center" alt="{{ book.title }}"
+              [routerLink]="['/book', book.id]" style="max-width: 100px;">
+          </td>
+          <td class="d-flex justify-content-evenly">
+            <button (click)="editBook(book)" class="btn btn-sm btn-primary">
+              <i class="fa fa-edit"></i> Edit
+            </button>
+            <button (click)="deleteBook(book.id)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </td>
+        </ng-container>
+        <ng-template #editMode>
+          <td>
+            <input type="text" [(ngModel)]="book.title" name="title" class="form-control">
+          </td>
+          <td>
+            <textarea [(ngModel)]="book.description" name="description" class="form-control"></textarea>
+          </td>
+          <td>
+            <input type="date" [(ngModel)]="book.dateOfPublish" name="dateOfPublish" class="form-control">
+          </td>
+          <td>
+            <select [(ngModel)]="book.publisherId" name="publisherId" class="form-select">
+              <option *ngFor="let publisher of publishers" [value]="publisher.id">{{ publisher.name }}</option>
+            </select>
+          </td>
+          <td>
+            <select [(ngModel)]="book.authorIds" name="authorIds" class="form-select" multiple>
+              <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+            </select>
+          </td>
+          <td>
+            <select [(ngModel)]="book.categoryIds" name="categoryIds" class="form-select" multiple>
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="book.bookAvatarUrl" name="bookAvatarUrl" class="form-control">
+          </td>
+          <td class="d-flex flex-column">
+            <button (click)="updateBook(book)" class="btn btn-sm btn-primary mb-2">
+              <i class="fa fa-save"></i> Save
+            </button>
+            <button (click)="cancelEdit(book)" class="btn btn-sm btn-danger">
+              <i class="fa fa-times"></i> Cancel
+            </button>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="d-flex justify-content-center mt-4" *ngIf="bookService.paginatedResult()?.pagination">
+  <pagination 
+    [totalItems]="bookService.paginatedResult()?.pagination!.totalItems"
+    [itemsPerPage]="bookService.paginatedResult()?.pagination!.itemsPerPage"
+
+    [maxSize]="10"
+    (pageChanged)="pageChanged($event)"
+    >
+  </pagination>
+</div>

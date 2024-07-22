@@ -14,6 +14,11 @@ import { AddBookComponent } from './Admin/add-book/add-book.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselBookComponent } from './carousel-book/carousel-book.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AdminBookListComponent } from './Admin/admin-book-list/admin-book-list.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +31,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     AuthorCardComponent,
     AuthorDetailComponent,
     AddBookComponent,
-    CarouselBookComponent
+    CarouselBookComponent,
+    AdminBookListComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,10 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    BrowserAnimationsModule,
+    BsDropdownModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

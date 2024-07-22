@@ -17,6 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>()
 	.AddEntityFrameworkStores<DataContext>()
 	.AddDefaultTokenProviders();
+
+
 	
 builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

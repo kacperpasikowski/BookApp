@@ -7,7 +7,11 @@ export interface BookDetail{
     description: string;
     dateOfPublish: string;
     publisherName: string;
+    publisherId: string;
     bookAvatarUrl: string;
     authors: Author[];
+    authorIds: string[];
+    editing: boolean;
     categories: Category[];
+    categoryIds: string[];
 }

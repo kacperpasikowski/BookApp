@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.Extensions;
+using API.helpers;
 using API.Repositories.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +24,11 @@ namespace API.Controllers
 		
 		
 		[HttpGet]
-		public async Task<IActionResult> GetAllBooks()
+		public async Task<IActionResult> GetAllBooks([FromQuery]UserParams userParams)
 		{
-			var books = await _bookService.GetAllBooksAsync();
+			var books = await _bookService.GetAllBooksAsync(userParams);
+			
+			Response.AddPaginationHeader(books);
 			
 			return Ok(books);
 		}
@@ -47,6 +51,20 @@ namespace API.Controllers
 			
 			var book = await _bookService.AddBookAsync(addBookDto);
 			return CreatedAtAction(nameof(GetBookById), new {id = book.Id}, book);
+		}
+		[HttpPut("{id}")]
+		public async Task<ActionResult<GetBookDto>> UpdateBook(Guid id, [FromBody] AddBookDto addBookDto)
+		{
+			
+			
+			if(addBookDto == null)
+			{
+				return BadRequest("book was not found");
+			}
+			
+			var updatedBook = await _bookService.UpdateBookAsync(id, addBookDto);
+			return Ok(updatedBook);
+			
 		}
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBook(Guid id)

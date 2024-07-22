@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.helpers;
 using API.Repositories.Interfaces;
 
 namespace API.Services
@@ -24,11 +26,11 @@ namespace API.Services
 			_categoryRepository = categoryRepository;
 		}
 
-		public async Task<IEnumerable<GetBookDto>> GetAllBooksAsync()
+		public async Task<PagedList<GetBookDto>> GetAllBooksAsync(UserParams userParams)
 		{
-			var books = await _bookRepository.GetAllBooksAsync();
+			var pagedBooks = await _bookRepository.GetAllBooksAsync(userParams);
 
-			return books.Select(book => new GetBookDto
+			var bookDtos = pagedBooks.Select(book => new GetBookDto
 			{
 				Id = book.Id,
 				Title = book.Title,
@@ -48,6 +50,9 @@ namespace API.Services
 					Name = bc.Category.Name
 				}).ToList()
 			}).ToList();
+			
+			return new PagedList<GetBookDto>(bookDtos, pagedBooks.TotalCount, userParams.PageNumber, userParams.PageSize);
+			
 		}
 
 		public async Task<GetBookDto> GetBookByIdAsync(Guid id)
@@ -123,9 +128,9 @@ namespace API.Services
 				BookAuthors = authors.Select(a => new BookAuthor { AuthorId = a.Id }).ToList(),
 				BookCategories = categories.Select(c => new BookCategory { CategoryId = c.Id }).ToList()
 			};
-			
+
 			await _bookRepository.AddBookAsync(book);
-			
+
 			var bookDto = new GetBookDto
 			{
 				Id = book.Id,
@@ -146,19 +151,91 @@ namespace API.Services
 					Name = bc.Category.Name
 				}).ToList()
 			};
-			
+
 			return bookDto;
 		}
+
+		public async Task<GetBookDto> UpdateBookAsync(Guid bookId, AddBookDto addBookDto)
+		{
+			var book = await _bookRepository.GetBookByIdAsync(bookId);
+			if (book == null)
+			{
+				throw new ArgumentException("Book was not found");
+			}
+
+			var publisher = await _publisherRepository.GetPublisherByIdAsync(addBookDto.PublisherId);
+			if (publisher == null)
+			{
+				throw new ArgumentException("Publisher was not found");
+			}
+
+			var authors = new List<Author>();
+			foreach (var authorId in addBookDto.AuthorIds)
+			{
+				var author = await _authorRepository.GetAuthorByIdAsync(authorId);
+				if (author == null)
+				{
+					throw new ArgumentException($"Author with ID {authorId} was not found");
+				}
+				authors.Add(author);
+			}
+
+			var categories = new List<Category>();
+			foreach (var categoryId in addBookDto.CategoryIds)
+			{
+				var category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
+				if (category == null)
+				{
+					throw new ArgumentException($"Category with ID {categoryId} was not found");
+				}
+				categories.Add(category);
+			}
+
+			book.Title = addBookDto.Title;
+			book.Description = addBookDto.Description;
+			book.DateOfPublish = addBookDto.DateOfPublish;
+			book.BookAvatarUrl = addBookDto.BookAvatarUrl;
+			book.PublisherId = addBookDto.PublisherId;
+			book.BookAuthors = authors.Select(a => new BookAuthor { AuthorId = a.Id, BookId = book.Id }).ToList();
+			book.BookCategories = categories.Select(c => new BookCategory { CategoryId = c.Id, BookId = book.Id }).ToList();
+
+			await _bookRepository.UpdateBookAsync(book);
+
+			var bookDto = new GetBookDto
+			{
+				Id = book.Id,
+				Title = book.Title,
+				Description = book.Description,
+				DateOfPublish = book.DateOfPublish,
+				PublisherName = publisher.Name,
+				BookAvatarUrl = book.BookAvatarUrl,
+				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
+				{
+					Id = ba.Author.Id,
+					Name = ba.Author.Name,
+				}).ToList(),
+				Categories = book.BookCategories.Select(bc => new CategoryDto
+				{
+					Id = bc.Category.Id,
+					Name = bc.Category.Name
+				}).ToList()
+			};
+
+			return bookDto;
+		}
+
 
 		public async Task<bool> DeleteBookAsync(Guid id)
 		{
 			var book = await _bookRepository.GetBookByIdAsync(id);
-			if(book == null)
+			if (book == null)
 			{
 				return false;
 			}
 			await _bookRepository.DeleteBookAsync(id);
 			return true;
 		}
+
+
 	}
 }

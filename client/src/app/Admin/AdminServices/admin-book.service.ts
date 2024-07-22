@@ -14,4 +14,10 @@ export class AdminBookService {
   addBook(book:any): Observable<BookDetail>{
     return this.http.post<BookDetail>(this.apiUrl, book);
   }
+  deleteBook(id:string){
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  updateBook(id: string, book: BookDetail){
+    return this.http.put<BookDetail>(`${this.apiUrl}/${id}`, book)
+  }
 }

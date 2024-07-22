@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using API.helpers;
 using API.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -17,16 +19,21 @@ namespace API.Repositories
 			_context = context;
 		}
 
-		public async Task<IEnumerable<Book>> GetAllBooksAsync()
+		public async Task<PagedList<Book>> GetAllBooksAsync(UserParams userParams )
 		{
-			return await _context.Books
+			
+			var totalBooks = await _context.Books.CountAsync();
+			
+			var query = _context.Books
 				.Include(b => b.Publisher)
 				.Include(b=> b.BookAuthors)
 					.ThenInclude(ba => ba.Author)
 				.Include(b => b.BookCategories)
 					.ThenInclude(bc => bc.Category)
-				.AsSplitQuery()
-				.ToListAsync();
+				.AsSplitQuery();
+
+				
+			return await PagedList<Book>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
 		}
 
 		public async Task<Book> GetBookByIdAsync(Guid id)
@@ -68,7 +75,6 @@ namespace API.Repositories
 			await _context.SaveChangesAsync();
 			return book;
 		}
-
 
 
 	}
