@@ -1,43 +1,47 @@
+<!-- nav.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand circle-image" href="#"><img id="MDB-logo" src="../../assets/Logo.jpg" alt="MDB Logo"
-                draggable="false" /></a>
-
-
-
+        <a class="navbar-brand circle-image" href="#"><img id="MDB-logo" src="../../assets/Logo.jpg" alt="MDB Logo" draggable="false" /></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-3">
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" aria-current="page" routerLink="book"><i
-                            class="fa fa-bars pe-2"></i>Books</a>
+                    <a class="nav-link active d-flex align-items-center" aria-current="page" routerLink="book">
+                        <i class="fa fa-bars pe-2"></i>Books
+                    </a>
                 </li>
             </ul>
-            <form class="d-flex align-items-center w-100 form-search">
-                <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+            <form class="d-flex align-items-center w-100 form-search" (submit)="onSearch()" autocomplete="off">
+                <input type="search" class="form-control" placeholder="Search" name="searchQuery" [(ngModel)]="query" (input)="onSearch()" aria-label="Search" />
                 <a href="#!" class="text-white"><i class="fa fa-search ps-3"></i></a>
             </form>
-
             <ul class="navbar-nav ms-3">
-
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center me-3" routerLink="author">
                         <i class="fa fa-bookmark pe-2"></i> Authors
                     </a>
                 </li>
                 <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"
-                        aria-controls="dropdown-animated">
+                    <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle" aria-controls="dropdown-animated">
                         Admin <span class="caret"></span>
                     </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
-                        aria-labelledby="button-animated">
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
                         <li role="menuitem"><a class="dropdown-item" routerLink="admin/add">Add Book</a></li>
-                        <li role="menuitem"><a class="dropdown-item" routerLink="admin/list">Update Book List</a>
-                        </li>
-                        
+                        <li role="menuitem"><a class="dropdown-item" routerLink="admin/list">Update Book List</a></li>
                     </ul>
                 </div>
             </ul>
+        </div>
+    </div>
+    <div *ngIf="results.length > 0" class="search-results">
+        <div *ngFor="let book of results" (click)="goToDetail('book', book.id)" class="search-result">
+            <img [src]="book.bookAvatarUrl" alt="Book Cover" />
+            <div class="result-details">
+                <span class="result-title">{{ book.title }}</span>
+                <div class="result-info">
+                    <span *ngIf="book.authors.length > 0">Autor: {{ book.authors[0].name }}</span>
+                    <span *ngIf="book.categories.length > 0"> | Kategoria: {{ book.categories[0].name}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </nav>

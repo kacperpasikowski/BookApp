@@ -32,6 +32,12 @@ namespace API.Controllers
 			
 			return Ok(books);
 		}
+		[HttpGet("search")]
+		public async Task<IActionResult> SearchBook([FromQuery] UserParams userParams, [FromQuery] string query)
+		{
+			var pagedBooks = await _bookService.SearchBooksAsync(userParams, query);
+			return Ok(pagedBooks);
+		}
 		
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBookById(Guid id)

@@ -5,6 +5,7 @@ import { BookSummary } from '../models/book-summary.model';
 import { BookDetail } from '../models/book-detail.model';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,20 @@ export class BookService {
 
   getBook(id: string): Observable<BookDetail>{
     return this.http.get<BookDetail>(`${this.apiUrl}/${id}`);
+  }
+
+  searchBooks(query: string, pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResult<BookDetail[]>> {
+    let params = this.setPaginationHeaders(pageNumber, pageSize);
+    params = params.append('query', query);
+  
+    return this.http.get<BookDetail[]>(`${this.apiUrl}/search`, { observe: 'response', params }).pipe(
+      map(response => {
+        const paginatedResult: PaginatedResult<BookDetail[]> = {
+          items: response.body as BookDetail[],
+          pagination: JSON.parse(response.headers.get('Pagination')!)
+        };
+        return paginatedResult;
+      })
+    );
   }
 }

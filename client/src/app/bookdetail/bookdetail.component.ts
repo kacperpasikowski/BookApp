@@ -1,34 +1,46 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { BookService } from '../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { BookDetail } from '../models/book-detail.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bookdetail',
   templateUrl: './bookdetail.component.html',
   styleUrls: ['./bookdetail.component.css']
 })
-export class BookdetailComponent implements OnInit {
+export class BookdetailComponent implements OnInit, OnDestroy {
+  
+  
   
   private bookService = inject(BookService);
   private route = inject(ActivatedRoute);
   book: BookDetail = {} as BookDetail;
+  routeSubscription: Subscription | undefined;
 
 
 
   ngOnInit(): void {
-    this.loadBook();
+    this.routeSubscription = this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.loadBook(id);
+    });
   }
 
-  loadBook(){
-    const id = this.route.snapshot.paramMap.get('id');
-    if(!id) return;
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+  }
+
+  loadBook(id: string) {
+    if (!id) return;
     this.bookService.getBook(id).subscribe({
       next: book => {
         this.book = book;
         console.log(this.book);
       }
-    })
+    });
   }
 
 
