@@ -88,10 +88,7 @@ export class AdminBookListComponent implements OnInit {
   }
 
   loadAuthors() {
-    this.authorService.getAuthors().subscribe({
-      next: authors => this.authors = authors,
-      error: error => console.log(error)
-    });
+    this.authorService.getAuthors(this.userParams)
   }
 
   loadCategories() {

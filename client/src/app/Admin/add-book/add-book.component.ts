@@ -47,7 +47,7 @@ export class AddBookComponent implements OnInit {
   }
 
   loadAuthors() {
-    this.authorService.getAuthors().subscribe({
+    this.authorService.getAllAuthors().subscribe({
       next: authors => this.authors = authors,
       error: error => error = console.log(error)
     });

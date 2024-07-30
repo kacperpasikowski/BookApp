@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using API.helpers;
 using API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,12 +19,16 @@ namespace API.Repositories
 			_context = context;
 		}
 		
-		public async Task<IEnumerable<Author>> GetAllAuthorsAsync()
+		public async Task<PagedList<Author>> GetAllAuthorsAsync(UserParams userParams)
 		{
-			return await _context.Authors
+			var totalAuthors = await _context.Authors.CountAsync();
+			
+			var query = _context.Authors
 				.Include(a => a.BookAuthors)
-				.ThenInclude(ba => ba.Book)
-				.ToListAsync();
+				.ThenInclude(ba => ba.Book);
+				
+				
+			return await PagedList<Author>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
 		}
 
 		public async Task<Author> GetAuthorByIdAsync(Guid id)

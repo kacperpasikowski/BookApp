@@ -1,9 +1,20 @@
 <div class="container-fluid">
     <div class="container">
         <div class="row me-2 m-3">
-            <div class="col-2 mb-4" *ngFor="let author of authors">
+            <div class="col-2 mb-4" *ngFor="let author of authorService.paginatedResult()?.items">
                 <app-author-card [author]="author"></app-author-card>
             </div>
         </div>
     </div>
 </div> 
+
+<div class="d-flex justify-content-center mt-3" *ngIf="authorService.paginatedResult()?.pagination">
+    <pagination 
+    [totalItems]="authorService.paginatedResult()?.pagination!.totalItems"
+    [itemsPerPage]="authorService.paginatedResult()?.pagination!.itemsPerPage"
+     
+    [maxSize]="12"
+    (pageChanged)="pageChanged($event)"
+    >
+  </pagination>
+</div>

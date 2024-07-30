@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.helpers;
 using API.Repositories.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,11 @@ namespace API.Controllers
 		}
 		
 		[HttpGet]
-		public async Task<IActionResult> GetAllAuthors()
+		public async Task<IActionResult> GetAllAuthors([FromQuery]UserParams userParams)
 		{
-			var authors = await _authorService.GetAllAuthorsAsync();
+			var authors = await _authorService.GetAllAuthorsAsync(userParams);
+			
+			Response.AddPaginationHeader(authors);
 			
 			return Ok(authors);
 		}

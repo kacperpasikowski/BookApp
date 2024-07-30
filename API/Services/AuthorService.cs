@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.helpers;
 using API.Repositories.Interfaces;
 
 namespace API.Services
@@ -18,10 +19,11 @@ namespace API.Services
 			_authorRepository = authorRepository;
 		}
 		
-		public async Task<IEnumerable<GetAuthorDto>> GetAllAuthorsAsync()
+		public async Task<PagedList<GetAuthorDto>> GetAllAuthorsAsync(UserParams userParams)
 		{
-			var authors = await _authorRepository.GetAllAuthorsAsync();
-			return authors.Select(author => new GetAuthorDto
+			var pagedAuthors = await _authorRepository.GetAllAuthorsAsync(userParams);
+			
+			var authorsDto = pagedAuthors.Select(author => new GetAuthorDto
 			{
 				Id = author.Id,
 				Name = author.Name,
@@ -36,7 +38,7 @@ namespace API.Services
 				}).ToList()
 			});
 			
-			
+			return new PagedList<GetAuthorDto>(authorsDto, pagedAuthors.TotalCount, userParams.PageNumber, userParams.PageSize );
 		}
 
 		public async Task<GetAuthorDto> GetAuthorByIdAsync(Guid id)

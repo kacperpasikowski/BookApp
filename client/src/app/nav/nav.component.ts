@@ -18,7 +18,6 @@ export class NavComponent {
 
 
   onSearch() {
-
     if (this.query.length > 1) {
       this.bookService.searchBooks(this.query, this.pageNumber, this.pageSize).subscribe({
         next: data => {
