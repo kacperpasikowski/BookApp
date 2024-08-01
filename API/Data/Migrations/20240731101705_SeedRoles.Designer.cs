@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240731101705_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -220,9 +223,6 @@ namespace API.Data.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("DateRead")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("UserId", "BookId");
 
                     b.HasIndex("BookId");
@@ -274,19 +274,19 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("33050927-a2cb-43b3-b395-8e604663aa57"),
+                            Id = new Guid("2fcf09ea-231d-42bc-b8d1-94e725421c34"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("5850c2ed-fc73-4901-89e7-8b62fd58c1ca"),
+                            Id = new Guid("300ada41-66f4-40af-9fb0-032a767ad95b"),
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = new Guid("52fdf143-417a-45c5-9333-c798eb110ac5"),
+                            Id = new Guid("b94f5888-f2bc-4462-943e-b333f1cb4007"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

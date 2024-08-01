@@ -22,31 +22,31 @@ namespace API.Controllers
 		
 		
 		[HttpPost("register")]
-		public async Task<IActionResult> Register([FromBody] RegisterModel model)
+		public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
 		{
-			var user = new AppUser {UserName = model.UserName, Email = model.Email};
-			
-			var result = await _userService.RegisterUserAsync(user, model.Password);
-			
-			if(!result.Succeeded)
+			try
 			{
-				return BadRequest(result.Errors);
+				var userDto = await _userService.RegisterUserAsync(registerModel);
+				return Ok(userDto);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(new {Errors = ex.Message});
 			}
 			
-			return Ok(user);
 		}
 		
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] LoginModel model)
+		public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
 		{
-			var token = await _userService.LoginUserAsync(model.UserName, model.Password);
+			var result = await _userService.LoginUserAsync(loginModel);
 			
-			if(token == null)
+			if(result == null)
 			{
-				return Unauthorized();
+				return Unauthorized(new {Errors = "Invalid login attempt"});
 			}
 			
-			return Ok(new {Token = token});
+			return Ok(result);
 		}
 		
 		

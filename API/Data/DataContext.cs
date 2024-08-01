@@ -30,6 +30,7 @@ namespace API.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+			SeedRoles(builder);
 			
 			//Publisher Book 1:N
 			builder.Entity<Book>()
@@ -107,6 +108,17 @@ namespace API.Data
 				.WithMany(c => c.BookCategories)
 				.HasForeignKey(bc => bc.CategoryId);
 				
+		}
+		private void SeedRoles(ModelBuilder builder)
+		{
+			var roles = new List<IdentityRole<Guid>>
+			{
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" },
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Moderator", NormalizedName = "MODERATOR" },
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "User", NormalizedName = "USER" },
+			};
+			
+			builder.Entity<IdentityRole<Guid>>().HasData(roles);
 		}
 	}
 }

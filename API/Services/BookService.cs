@@ -84,7 +84,8 @@ namespace API.Services
 				{
 					Id = bc.Category.Id,
 					Name = bc.Category.Name
-				}).ToList()
+				}).ToList(),
+				AverageGrade = CalculateAverageGrade(book.Id).Result
 			}).ToList();
 
 			return new PagedList<GetBookDto>(bookDtos, pagedBooks.TotalCount, userParams.PageNumber, userParams.PageSize);
@@ -118,7 +119,9 @@ namespace API.Services
 				{
 					Id = bc.Category.Id,
 					Name = bc.Category.Name
-				}).ToList()
+				}).ToList(),
+				AverageGrade = await CalculateAverageGrade(book.Id)
+				
 			};
 
 		}
@@ -271,6 +274,16 @@ namespace API.Services
 			}
 			await _bookRepository.DeleteBookAsync(id);
 			return true;
+		}
+		
+		private async Task<double> CalculateAverageGrade(Guid bookId)
+		{
+			var grades = await _bookRepository.GetBookGradesAsync(bookId);
+			if (grades == null || !grades.Any())
+			{
+				return 0;
+			}
+			return grades.Average(bg => bg.Grade);
 		}
 
 

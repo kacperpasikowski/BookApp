@@ -11,6 +11,7 @@ namespace API.Repositories.Interfaces
 	{
 		Task<PagedList<Book>> GetAllBooksAsync(UserParams userParams);
 		Task<Book> GetBookByIdAsync(Guid id);
+		Task<IEnumerable<BookGrade>> GetBookGradesAsync(Guid bookId);
 		Task<Book> AddBookAsync(Book book);
 		Task<Book> DeleteBookAsync(Guid id);
 		Task<Book> UpdateBookAsync(Book book);

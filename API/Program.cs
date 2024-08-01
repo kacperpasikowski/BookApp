@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using API.Data;
 using API.Entities;
@@ -17,7 +18,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>()
+builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>(options=>
+{
+	options.User.RequireUniqueEmail = true;
+})
 	.AddEntityFrameworkStores<DataContext>()
 	.AddDefaultTokenProviders();
 
@@ -35,11 +39,12 @@ builder.Services.AddAuthentication(opt =>
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Issuer"],
 		ValidAudience = builder.Configuration["Issuer"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]))
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
+		RoleClaimType = ClaimsIdentity.DefaultRoleClaimType 
 	};
 });
 
-
+builder.Services.AddScoped<RoleManager<IdentityRole<Guid>>>();
 
 
 builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
@@ -54,6 +59,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserBookRepository, UserBookRepository>();
+builder.Services.AddScoped<IUserBookService, UserBookService>();
 
 
 

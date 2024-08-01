@@ -15,5 +15,6 @@ namespace API.DTOs
 		public string BookAvatarUrl { get; set; }
 		public List<BookAuthorsDto> Authors { get; set; }
 		public List<CategoryDto> Categories { get; set; }
+		public double AverageGrade { get; set; }
 	}
 }

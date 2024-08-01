@@ -76,6 +76,9 @@ namespace API.Repositories
 			return book;
 		}
 
-
-	}
+        public async Task<IEnumerable<BookGrade>> GetBookGradesAsync(Guid bookId)
+        {
+            return await _context.BookGrades.Where(bg => bg.BookId == bookId).ToListAsync();
+        }
+    }
 }
