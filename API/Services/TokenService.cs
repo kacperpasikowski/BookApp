@@ -21,9 +21,12 @@ namespace API.Services
 			
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 			
+			if (user.UserName == null) throw new Exception("no username for user");
+			
 			var claims = new List<Claim>
 			{
-				new(ClaimTypes.NameIdentifier, user.UserName)
+				new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+				new(ClaimTypes.Name, user.UserName)
 			};
 			
 			var roles = await userManager.GetRolesAsync(user);

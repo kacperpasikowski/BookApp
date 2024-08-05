@@ -33,9 +33,8 @@ builder.Services.AddAuthentication(opt =>
 {
 	opt.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidateLifetime = true,
+		ValidateIssuer = false,
+		ValidateAudience = false,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Issuer"],
 		ValidAudience = builder.Configuration["Issuer"],
@@ -61,6 +60,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserBookRepository, UserBookRepository>();
 builder.Services.AddScoped<IUserBookService, UserBookService>();
+builder.Services.AddScoped<IUserAuthorRepository, UserAuthorRepository>();
+builder.Services.AddScoped<IUserAuthorService, UserAuthorService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 
 

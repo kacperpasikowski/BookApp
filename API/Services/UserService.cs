@@ -18,12 +18,17 @@ namespace API.Services
 		private readonly IUserRepository _userRepository;
 		private readonly ITokenService _tokenService;
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IUserBookRepository _userBookRepository;
+		private readonly IUserAuthorRepository _userAuthorRepository;
 
-		public UserService(IUserRepository userRepository, ITokenService tokenService, UserManager<AppUser> userManager)
+		public UserService(IUserRepository userRepository, ITokenService tokenService, UserManager<AppUser> userManager, 
+		IUserBookRepository userBookRepository, IUserAuthorRepository userAuthorRepository)
 		{
 			_userRepository = userRepository;
 			_tokenService = tokenService;
 			_userManager = userManager;
+			_userBookRepository = userBookRepository;
+			_userAuthorRepository = userAuthorRepository;
 		}
 
 		public async Task<PagedList<GetAllUsersDto>> GetAllUsersAsync(UserParams userParams)
@@ -35,12 +40,21 @@ namespace API.Services
 			{
 				var roles = await _userManager.GetRolesAsync(user);
 				
+				var readBooks = await _userBookRepository.GetUserBooksAsync(user.Id, userParams);
+				var readBooksTitles = readBooks.Select(rb=> rb.Book.Title).ToList();
+				
+				var favoriteAuthors = await _userAuthorRepository.GetUserFavoriteAuthorsAsync(user.Id, userParams);
+				var favoriteAuthorsNames = favoriteAuthors.Select(fa => fa.Author.Name).ToList();
+				
 				var userDto = new GetAllUsersDto
 				{
 					Id = user.Id,
 					UserName = user.UserName,
 					Email = user.Email,
-					Roles = roles.ToList()
+					Roles = roles.ToList(),
+					ReadBooks = readBooksTitles,
+					FavoriteAuthors = favoriteAuthorsNames
+					
 				};
 				userDtos.Add(userDto);
 			}

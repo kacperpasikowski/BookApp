@@ -54,6 +54,9 @@ namespace API.Repositories
 			return await _signInManager.PasswordSignInAsync(userName, password, false, false);
 		}
 
-		
-	}
+        public async Task<AppUser> FindUserByIdAsync(Guid userId)
+        {
+            return await _context.Users.FindAsync(userId);
+        }
+    }
 }

@@ -15,6 +15,7 @@ namespace API.Repositories.Interfaces
 		Task<IdentityResult> RegisterUserAsync(AppUser user, string password);
 		
 		Task<AppUser> FindUserByNameAsync(string userName);
+		Task<AppUser> FindUserByIdAsync(Guid userId);
 		Task<SignInResult> PasswordSignInAsync(string userName, string password);
 	}
 }

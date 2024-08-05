@@ -25,12 +25,13 @@ namespace API.Data
 		public DbSet<Publisher> Publishers { get; set; }
 		public DbSet<UserBook> UserBooks { get; set; }
 		public DbSet<UserFavoriteAuthor> UserFavoriteAuthors { get; set; }
+		public DbSet<Message> Messages { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
-			SeedRoles(builder);
+			
 			
 			//Publisher Book 1:N
 			builder.Entity<Book>()
@@ -107,18 +108,18 @@ namespace API.Data
 				.HasOne(bc => bc.Category)
 				.WithMany(c => c.BookCategories)
 				.HasForeignKey(bc => bc.CategoryId);
+			
+			builder.Entity<Message>()
+				.HasOne(x => x.Recipient)
+				.WithMany(x => x.MessagesReceived)
+				.OnDelete(DeleteBehavior.Restrict);
+				
+			builder.Entity<Message>()
+				.HasOne(x => x.Sender)
+				.WithMany(x => x.MessagesSent)
+				.OnDelete(DeleteBehavior.Restrict);
 				
 		}
-		private void SeedRoles(ModelBuilder builder)
-		{
-			var roles = new List<IdentityRole<Guid>>
-			{
-			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" },
-			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Moderator", NormalizedName = "MODERATOR" },
-			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "User", NormalizedName = "USER" },
-			};
-			
-			builder.Entity<IdentityRole<Guid>>().HasData(roles);
-		}
+		
 	}
 }
