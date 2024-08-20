@@ -10,6 +10,7 @@ namespace API.DTOs
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string AuthorAvatarUrl { get; set; }
+		public string MainCategory { get; set; }
 		public DateOnly DateOfBirth { get; set; }
 		public List<AuthorsBookDto> Books { get; set; }
 	}

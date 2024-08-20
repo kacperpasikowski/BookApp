@@ -10,7 +10,7 @@ import { UserParams } from '../models/userParams';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit{
-  books: BookDetail[] = [];
+  books: BookSummary[] = [];
   bookService = inject(BookService);
   userParams = new UserParams();
 

@@ -6,12 +6,12 @@
                     <img [src]="author.authorAvatarUrl" alt="{{author.name}}" class="card-img-top img-thumbnail">
                     <div class="card-body">
                         <div class="text-center">
-                            <strong>{{author.name}}</strong>
+                            <strong class="fs-5">{{author.name}}</strong>
                         </div>
-                        <div>
+                        <div class="py-2">
                             <p><strong>Born in:</strong> {{author.dateOfBirth}}
                             </p>
-                            <p><strong>Most Popular genre</strong> TU TRZEBA DODAĆ!!
+                            <p><strong>Most popular genre: </strong> {{author.mainCategory}}
                             </p>
                         </div>
                     </div>
@@ -20,8 +20,8 @@
         </div>
     </div>
 </div>
-<div class="container-fluid light-gray">
-    <div class="mb-2 light-gray container">
+<div class="container-fluid light-gray ">
+    <div class="mb-2 container">
         <app-carousel-book [books]="books"></app-carousel-book>
     </div>
 </div>

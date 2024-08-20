@@ -8,6 +8,7 @@ import { AuthorDetailComponent } from './author-detail/author-detail.component';
 import { AddBookComponent } from './Admin/add-book/add-book.component';
 import { CarouselBookComponent } from './carousel-book/carousel-book.component';
 import { AdminBookListComponent } from './Admin/admin-book-list/admin-book-list.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path: 'book/:id', component: BookdetailComponent},
@@ -15,7 +16,7 @@ const routes: Routes = [
   {path: 'author/:id', component: AuthorDetailComponent},
   {path: 'admin/add', component: AddBookComponent},
   {path: 'admin/list', component: AdminBookListComponent},
-  {path: 'carousel', component: CarouselBookComponent},
+  {path: 'login', component: LoginComponent},
   {path: '**', component: BookListComponent, pathMatch: 'full'},
   
 ];

@@ -35,7 +35,9 @@ namespace API.Repositories
 		{
 			return await _context.Authors
 				.Include(a => a.BookAuthors)
-				.ThenInclude(ba => ba.Book)
+					.ThenInclude(ba => ba.Book)
+						.ThenInclude(b =>  b.BookCategories)
+							.ThenInclude(bc => bc.Category)
 				.FirstOrDefaultAsync(a => a.Id == id);
 		}
 

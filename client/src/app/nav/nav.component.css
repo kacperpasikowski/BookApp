@@ -45,8 +45,9 @@
     border-bottom: 1px solid #ccc;
     border-radius: 8px;
 }
+
 .search-results :hover {
- background-color: rgba(232, 232, 232, 0.652);
+    background-color: rgba(232, 232, 232, 0.652);
 }
 
 .search-result img {
@@ -54,7 +55,7 @@
     height: 40px;
     margin-right: 10px;
     border-radius: 50%;
-    object-fit:cover;
+    object-fit: cover;
 }
 
 .search-result span {
@@ -67,26 +68,58 @@
 }
 
 .search-results::-webkit-scrollbar-thumb {
-    background-color: #888; /* Kolor uchwytu suwaka */
-    border-radius: 4px; /* Zaokrąglone rogi uchwytu suwaka */
+    background-color: #888;
+    /* Kolor uchwytu suwaka */
+    border-radius: 4px;
+    /* Zaokrąglone rogi uchwytu suwaka */
 }
 
 .search-results::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Kolor uchwytu suwaka przy najechaniu */
+    background-color: #555;
+    /* Kolor uchwytu suwaka przy najechaniu */
 }
 
 .search-results::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Kolor tła suwaka */
-    border-radius: 4px; /* Zaokrąglone rogi tła suwaka */
+    background: #f1f1f1;
+    /* Kolor tła suwaka */
+    border-radius: 4px;
+    /* Zaokrąglone rogi tła suwaka */
 }
 
 /* Stylizacja dla przeglądarek nie obsługujących Webkit */
 .search-results {
-    scrollbar-width: thin; /* Cieńszy suwak */
-    scrollbar-color: #888 #f1f1f1; /* Kolor uchwytu suwaka i tła */
+    scrollbar-width: thin;
+    /* Cieńszy suwak */
+    scrollbar-color: #888 #f1f1f1;
+    /* Kolor uchwytu suwaka i tła */
 }
 
 .search-results:hover {
-    scrollbar-color: #555 #f1f1f1; 
+    scrollbar-color: #555 #f1f1f1;
     /* Kolor uchwytu suwaka i tła przy najechaniu */
+}
+
+
+.example-container {
+    display: flex;
+    height: calc(100vh - 64px);
+    /* Odejmujemy wysokość navbaru */
+    margin-top: 64px;
+    /* Wysokość navbaru */
+}
+
+.sidenav {
+    width: 250px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 16px;
+    overflow: auto;
 }

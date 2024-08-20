@@ -74,6 +74,7 @@ namespace API.Services
 				DateOfPublish = book.DateOfPublish,
 				PublisherName = book.Publisher.Name,
 				BookAvatarUrl = book.BookAvatarUrl,
+				CategoryName = book.BookCategories.FirstOrDefault().Category.Name,
 				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
 				{
 					Id = ba.Author.Id,
@@ -109,6 +110,7 @@ namespace API.Services
 				DateOfPublish = book.DateOfPublish,
 				PublisherName = book.Publisher.Name,
 				BookAvatarUrl = book.BookAvatarUrl,
+				CategoryName = book.BookCategories.FirstOrDefault().Category.Name,
 				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
 				{
 					Id = ba.Author.Id,

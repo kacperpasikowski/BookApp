@@ -4,5 +4,6 @@ export interface Author{
     id: string;
     name: string;
     authorAvatarUrl: string;
+    mainCategory: string;
     books: BookSummary[];
 }

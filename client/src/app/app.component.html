@@ -1,4 +1,20 @@
-<app-nav> </app-nav>
+<app-nav (toggleUserPanel)="toggleUserPanel()"></app-nav>
 
-<router-outlet></router-outlet>
+<mat-drawer-container class="example-container">
+  <!-- Wysuwany panel boczny po prawej stronie -->
+  <app-sidebar [userPanelOpened]="userPanelOpened" (toggleUserPanel)="toggleUserPanel()" [users]="users"
+    (userSelected)="openChat($event)"></app-sidebar>
 
+  <router-outlet></router-outlet>
+</mat-drawer-container>
+
+
+<div class="chat-windows-container">
+  <app-chat-window
+  *ngFor="let chat of chatWindows; let i = index"
+  [ngStyle]="{'right.px': 20 + i * 320}"
+   
+   [selectedUser]="chat" 
+   (closeChat)="closeChat(i)">
+  </app-chat-window>
+</div>

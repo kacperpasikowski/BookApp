@@ -14,7 +14,7 @@ namespace API.Data
 		public DataContext(DbContextOptions options) : base(options)
 		{
 		}
-		
+
 		public DbSet<AppUser> AppUsers { get; set; }
 		public DbSet<Author> Authors { get; set; }
 		public DbSet<Book> Books { get; set; }
@@ -31,95 +31,107 @@ namespace API.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
-			
-			
+			SeedRoles(builder);
+
+
 			//Publisher Book 1:N
 			builder.Entity<Book>()
 				.HasOne(b => b.Publisher)
 				.WithMany(p => p.Books)
 				.HasForeignKey(b => b.PublisherId);
-				
+
 			//Book - AppUser N:M Grades	
 			builder.Entity<BookGrade>()
-				.HasKey(bg => new {bg.UserId, bg.BookId});
-				
+				.HasKey(bg => new { bg.UserId, bg.BookId });
+
 			builder.Entity<BookGrade>()
 				.HasOne(bg => bg.AppUser)
 				.WithMany(u => u.BookGrades)
 				.HasForeignKey(bg => bg.UserId);
-				
+
 			builder.Entity<BookGrade>()
-				.HasOne(bg => bg.Book )
+				.HasOne(bg => bg.Book)
 				.WithMany(b => b.BookGrades)
 				.HasForeignKey(bg => bg.BookId);
-			
+
 			//Book - AppUser N:M ReadBooks
 			builder.Entity<UserBook>()
-				.HasKey(ub => new {ub.UserId, ub.BookId});
-				
+				.HasKey(ub => new { ub.UserId, ub.BookId });
+
 			builder.Entity<UserBook>()
 				.HasOne(ub => ub.AppUser)
 				.WithMany(u => u.BooksRead)
 				.HasForeignKey(ub => ub.UserId);
-				
+
 			builder.Entity<UserBook>()
 				.HasOne(ub => ub.Book)
 				.WithMany(b => b.UserBooks)
 				.HasForeignKey(ub => ub.BookId);
-				
+
 			//User - Author N:M UserFavoriteAuthor
 			builder.Entity<UserFavoriteAuthor>()
-				.HasKey(ufa => new {ufa.UserId, ufa.AuthorId});
-				
+				.HasKey(ufa => new { ufa.UserId, ufa.AuthorId });
+
 			builder.Entity<UserFavoriteAuthor>()
 				.HasOne(ufa => ufa.AppUser)
 				.WithMany(u => u.UserFavoriteAuthors)
 				.HasForeignKey(ufa => ufa.UserId);
-			
+
 			builder.Entity<UserFavoriteAuthor>()
 				.HasOne(ufa => ufa.Author)
 				.WithMany(a => a.UserFavoriteAuthors)
 				.HasForeignKey(ufa => ufa.AuthorId);
-				
+
 			//Book - Author N:M BookAuthor
 			builder.Entity<BookAuthor>()
-				.HasKey(ba => new {ba.BookId, ba.AuthorId});
-				
+				.HasKey(ba => new { ba.BookId, ba.AuthorId });
+
 			builder.Entity<BookAuthor>()
 				.HasOne(ba => ba.Book)
 				.WithMany(b => b.BookAuthors)
 				.HasForeignKey(ba => ba.BookId);
-			
+
 			builder.Entity<BookAuthor>()
 				.HasOne(ba => ba.Author)
 				.WithMany(a => a.BookAuthors)
 				.HasForeignKey(ba => ba.AuthorId);
-				
+
 			//Book - Category N:M BookCategory
 			builder.Entity<BookCategory>()
-				.HasKey(bc => new{bc.BookId, bc.CategoryId});
-				
+				.HasKey(bc => new { bc.BookId, bc.CategoryId });
+
 			builder.Entity<BookCategory>()
-				.HasOne(bc => bc.Book )
+				.HasOne(bc => bc.Book)
 				.WithMany(b => b.BookCategories)
 				.HasForeignKey(bc => bc.BookId);
-				
+
 			builder.Entity<BookCategory>()
 				.HasOne(bc => bc.Category)
 				.WithMany(c => c.BookCategories)
 				.HasForeignKey(bc => bc.CategoryId);
-			
+
 			builder.Entity<Message>()
 				.HasOne(x => x.Recipient)
 				.WithMany(x => x.MessagesReceived)
 				.OnDelete(DeleteBehavior.Restrict);
-				
+
 			builder.Entity<Message>()
 				.HasOne(x => x.Sender)
 				.WithMany(x => x.MessagesSent)
 				.OnDelete(DeleteBehavior.Restrict);
-				
+
 		}
-		
+		private void SeedRoles(ModelBuilder builder)
+		{
+			var roles = new List<IdentityRole<Guid>>
+		{
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" },
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Moderator", NormalizedName = "MODERATOR" },
+			new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "User", NormalizedName = "USER" }
+		};
+
+			builder.Entity<IdentityRole<Guid>>().HasData(roles);
+		}
+
 	}
 }

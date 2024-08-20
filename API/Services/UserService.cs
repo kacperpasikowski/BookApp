@@ -51,6 +51,7 @@ namespace API.Services
 					Id = user.Id,
 					UserName = user.UserName,
 					Email = user.Email,
+					UserAvatarUrl = user.UserAvatarUrl,
 					Roles = roles.ToList(),
 					ReadBooks = readBooksTitles,
 					FavoriteAuthors = favoriteAuthorsNames
@@ -68,7 +69,8 @@ namespace API.Services
 			var user = new AppUser
 			{
 				UserName = registerModel.UserName,
-				Email = registerModel.Email
+				Email = registerModel.Email,
+				UserAvatarUrl = registerModel.UserAvatarUrl
 			};
 			
 			var result = await _userRepository.RegisterUserAsync(user, registerModel.Password);
@@ -91,6 +93,7 @@ namespace API.Services
 				UserName = user.UserName,
 				Email = user.Email,
 				Token = token,
+				UserAvatarUrl = user.UserAvatarUrl,
 				Roles = roles.ToList()
 			};
 			
@@ -114,8 +117,10 @@ namespace API.Services
 				Id = user.Id,
 				UserName = user.UserName,
 				Email = user.Email,
+				UserAvatarUrl = user.UserAvatarUrl,
 				Token = token,
 				Roles = roles.ToList()
+				
 				
 			};
 		}

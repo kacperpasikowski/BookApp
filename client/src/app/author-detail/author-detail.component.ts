@@ -14,9 +14,11 @@ export class AuthorDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   author: AuthorDetail = {} as AuthorDetail;
   books: BookSummary[] = [];
+  
 
   ngOnInit(): void {
     this.loadAuthor();
+    console.log()
   }
 
 

@@ -18,6 +18,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AdminBookListComponent } from './Admin/admin-book-list/admin-book-list.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { ChatWindowComponent } from './chat-window/chat-window.component';
+import { LoginComponent } from './login/login.component';
+
 
 
 @NgModule({
@@ -32,7 +42,10 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     AuthorDetailComponent,
     AddBookComponent,
     CarouselBookComponent,
-    AdminBookListComponent
+    AdminBookListComponent,
+    SidebarComponent,
+    ChatWindowComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +56,15 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     CarouselModule.forRoot(),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    MatSidenavModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

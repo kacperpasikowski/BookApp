@@ -10,7 +10,7 @@ namespace API.Services
 	public interface IMessageService
 	{
 		Task AddMessageAsync(Guid senderId, Guid recipientId, string content);
-		Task<PagedList<MessageDto>> GetMessagesForUser(UserParams userParams);
+		Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams);
 		Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername);
 	}
 }

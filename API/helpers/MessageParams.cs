@@ -8,7 +8,7 @@ namespace API.helpers
 	public class MessageParams : PaginationParams
 	{
 		public string Username { get; set; }
-		public string  MyProperty { get; set; }
+		public string Container { get; set; } = "Unread";
 		   
 	}
 }

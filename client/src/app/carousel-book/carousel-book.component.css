@@ -1,0 +1,24 @@
+.carousel-inner {
+    display: flex;
+}
+
+.carousel-item {
+    transition: transform 0.5s ease;
+    flex: 0 0 auto;
+}
+
+.carousel-item.next,
+.carousel-item.active.right {
+    transform: translateX(100%);
+}
+
+.carousel-item.prev,
+.carousel-item.active.left {
+    transform: translateX(-100%);
+}
+
+.carousel-item.next.left,
+.carousel-item.prev.right,
+.carousel-item.active {
+    transform: translateX(0);
+}

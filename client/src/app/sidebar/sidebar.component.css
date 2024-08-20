@@ -1,0 +1,21 @@
+.custom-toolbar {
+    background-color: #212529;
+    /* Zmień na żądany kolor */
+    color: white;
+    /* Zmień na żądany kolor tekstu, jeśli potrzebne */
+}
+
+.sidenav {
+    width: 230px;
+    /* Zmniejsz szerokość jeśli konieczne */
+}
+
+
+.user-avatar {
+    height: 35px;
+    border-radius: 50%;
+}
+
+.mat-divider {
+    margin: 0 16px;
+}

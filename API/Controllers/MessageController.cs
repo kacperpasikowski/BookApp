@@ -18,32 +18,30 @@ namespace API.Controllers
 	[Route("api/[controller]")]
 	public class MessageController : ControllerBase
 	{
-		private readonly IMessageService _messageService;
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IMessageRepository _messageRepository;
 
-		public MessageController(IMessageService messageService, IMapper mapper, IUserRepository userRepository, IMessageRepository messageRepository)
+		public MessageController(IMapper mapper, IUserRepository userRepository, IMessageRepository messageRepository)
 		{
-			_messageService = messageService;
 			_mapper = mapper;
 			_userRepository = userRepository;
 			_messageRepository = messageRepository;
 		}
-		
+
 		[HttpPost]
 		public async Task<IActionResult> CreateMessage([FromBody] CreateMessageDto createMessageDto)
 		{
 			var username = User.GetUsername();
-			if(username== createMessageDto.RecipientUsername.ToLower())
+			if (username == createMessageDto.RecipientUsername.ToLower())
 			{
 				return BadRequest("You cannot send message to yourself");
 			}
 			var sender = await _userRepository.FindUserByNameAsync(username);
 			var recipient = await _userRepository.FindUserByNameAsync(createMessageDto.RecipientUsername);
-			
-			if(recipient==null || sender == null) return BadRequest("Cannot send message(some value is null)");
-			
+
+			if (recipient == null || sender == null) return BadRequest("Cannot send message(some value is null)");
+
 			var message = new Message
 			{
 				Sender = sender,
@@ -52,27 +50,34 @@ namespace API.Controllers
 				RecipientUsername = recipient.UserName,
 				Content = createMessageDto.Content
 			};
-			
+
 			_messageRepository.AddMessage(message);
-			
-			if(await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
-			
+
+			if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
+
 			return BadRequest("Failed to save message");
-			
-			
+
+
 		}
 		[HttpGet]
-		public async Task<IActionResult> GetMessagesForUser([FromQuery] UserParams userParams)
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
 		{
-			var messages = await _messageService.GetMessagesForUser(userParams);
-			return Ok(messages);
+			messageParams.Username = User.GetUsername();
+
+			var messages = await _messageRepository.GetMessagesForUser(messageParams);
+
+			Response.AddPaginationHeader(messages);
+
+			return messages;
+
+
 		}
-		
-		[HttpGet("thread")]
-		public async Task<IActionResult> GetMessageThread([FromQuery] string currentUsername, [FromQuery] string recipientUsername )
+
+		[HttpGet("thread/{username}")]
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
 		{
-			var messages = await _messageService.GetMessageThread(currentUsername, recipientUsername);
-			return Ok(messages);
+			var currentUsername = User.GetUsername();
+			return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
 		}
 	}
 }

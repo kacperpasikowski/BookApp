@@ -6,6 +6,11 @@
         <h6 class="card-title text-center mb-2 mt-2" routerLink="/author/{{author.id}}">
             {{author.name}}
         </h6>
+        <p class="text-center mt-3 mb-0">Category: 
+            <span class="author" >
+                 {{author.mainCategory}}
+            </span>
+        </p>
     </div>
     <ng-template #unknownAuthors>
         <p>Authors: Unknown</p>

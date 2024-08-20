@@ -1,11 +1,13 @@
-<div *ngIf="books && books.length > 0" class="pt-3">
-  <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="noWrap" [interval]="0"
+<div *ngIf="books && books.length > 0" class="py-2">
+  <carousel [isAnimated]="true" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="noWrap" [interval]="0"
     (slideRangeChange)="onSlideRangeChange($event)">
-    <slide *ngFor="let book of books; let index=index">
-      <img [src]="book.bookAvatarUrl" alt="Book cover" style="display: block; width: 100%;">
+    <slide *ngFor="let book of books; let index=index" class="carousel-item">
+      <a routerLink="/book/{{book.id}}"><img [src]="book.bookAvatarUrl" alt="Book cover" style="display: block; width: 100%;"></a>
       <div class="carousel-caption">
-        <h5 style="cursor: pointer;" routerLink="/book/{{book.id}}">{{ book.title }}</h5>
-        <p>{{ book.dateOfPublish }}</p>
+        <h5 style="cursor: pointer;" routerLink="/book/{{book.id}}">
+          <em>{{ book.title }}</em>
+        </h5>
+        <p>{{ book.categoryName }}</p>
       </div>
     </slide>
   </carousel>

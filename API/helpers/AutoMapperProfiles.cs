@@ -13,7 +13,7 @@ namespace API.helpers
 		public AutoMapperProfiles()
 		{
 			CreateMap<Message, MessageDto>();
-				
+			CreateMap<Category, CategoryDto>();
 		}
 	}
 }

@@ -1,17 +1,34 @@
 <!-- nav.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand circle-image" href="#"><img id="MDB-logo" src="../../assets/Logo.jpg" alt="MDB Logo" draggable="false" /></a>
+        <a class="navbar-brand circle-image" href="#"><img id="MDB-logo" src="../../assets/Logo.jpg" alt="MDB Logo"
+                draggable="false" /></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="btn-group" dropdown>
+                <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"
+                    aria-controls="dropdown-animated">
+                    Admin <span class="caret"></span>
+                </button>
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                    aria-labelledby="button-animated">
+                    <li role="menuitem"><a class="dropdown-item" routerLink="admin/add">Add Book</a></li>
+                    <li role="menuitem"><a class="dropdown-item" routerLink="admin/list">Update Book List</a></li>
+                </ul>
+            </div>
             <ul class="navbar-nav me-3">
                 <li class="nav-item">
                     <a class="nav-link active d-flex align-items-center" aria-current="page" routerLink="book">
                         <i class="fa fa-bars pe-2"></i>Books
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active d-flex align-items-center" aria-current="page" routerLink="login">Login</a>
+                     
+                </li>
             </ul>
             <form class="d-flex align-items-center w-100 form-search" (submit)="onSearch()" autocomplete="off">
-                <input type="search" class="form-control" placeholder="Search" name="searchQuery" [(ngModel)]="query" (input)="onSearch()" aria-label="Search" />
+                <input type="search" class="form-control" placeholder="Search" name="searchQuery" [(ngModel)]="query"
+                    (input)="onSearch()" aria-label="Search" />
                 <a href="#!" class="text-white"><i class="fa fa-search ps-3"></i></a>
             </form>
             <ul class="navbar-nav ms-3">
@@ -20,15 +37,12 @@
                         <i class="fa fa-bookmark pe-2"></i> Authors
                     </a>
                 </li>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle" aria-controls="dropdown-animated">
-                        Admin <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
-                        <li role="menuitem"><a class="dropdown-item" routerLink="admin/add">Add Book</a></li>
-                        <li role="menuitem"><a class="dropdown-item" routerLink="admin/list">Update Book List</a></li>
-                    </ul>
-                </div>
+                
+                <li class="nav-item mt-1 ms-1">
+                    <a class="nav-link active d-flex align-items-center" style="cursor:pointer" (click)="toggleUserPanel.emit()">
+                        <i class="fa fa-envelope fs-5"></i>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -1,7 +1,8 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Inject, Output } from '@angular/core';
 import { BookDetail } from '../models/book-detail.model';
 import { BookService } from '../services/book.service';
 import { Router } from '@angular/router';
+import { SidebarService } from '../services/sidebar.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,9 +14,13 @@ export class NavComponent {
   results: BookDetail[] = [];
   pageNumber: number = 1;
   pageSize: number = 10;
+  @Output() toggleUserPanel = new EventEmitter<void>();
 
-  constructor(private bookService: BookService, private router: Router, private elementRef: ElementRef) { }
 
+  constructor(private bookService: BookService, private sidebarService: SidebarService,private router: Router,
+     private elementRef: ElementRef) { }
+
+  
 
   onSearch() {
     if (this.query.length > 1) {
@@ -26,7 +31,6 @@ export class NavComponent {
             
           } else {
             this.results = [];
-            
           }
         },
         error: error => console.log('Search error:', error) 
@@ -47,10 +51,8 @@ export class NavComponent {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event){
-    if(!this.elementRef.nativeElement.contains(event.target)){
-      this.results = [];
-    }
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
+  
 }

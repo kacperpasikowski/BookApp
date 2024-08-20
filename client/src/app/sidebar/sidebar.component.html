@@ -1,0 +1,27 @@
+<mat-drawer mode="over" [(opened)]="userPanelOpened" position="end" class="sidenav">
+    <mat-toolbar color="primary" class="custom-toolbar">
+        <span>Friends : D</span>
+        <button class="ms-5" mat-icon-button (click)="toggleUserPanel.emit()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar>
+    <mat-list>
+
+        <ng-container *ngFor="let user of users; let last = last">
+            <mat-list-item (click)="selectUser(user)"
+            style="cursor: pointer;"
+            >
+                <img mat-list-avatar 
+                [src]="user.userAvatarUrl" 
+                alt="{{ user.userName }}" 
+                class="user-avatar"
+                
+                
+                >
+                {{ user.userName }}
+            </mat-list-item>
+            <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+
+    </mat-list>
+</mat-drawer>

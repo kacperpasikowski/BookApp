@@ -51,9 +51,9 @@ namespace API.Services
 			await _messageRepository.SaveAllAsync();
 		}
 
-		public async Task<PagedList<MessageDto>> GetMessagesForUser(UserParams userParams)
+		public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
 		{
-			return await _messageRepository.GetMessagesForUser(userParams);
+			return await _messageRepository.GetMessagesForUser(messageParams);
 		}
 
 		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)

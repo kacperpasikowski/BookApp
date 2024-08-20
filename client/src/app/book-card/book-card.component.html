@@ -1,11 +1,16 @@
 <div class="card mb-4  h-100">
     <div class="card-img-wrapper">
-        <img src="{{book.bookAvatarUrl}}" alt="{{book.title}}" class="card-img-top">
+        <a  routerLink="/book/{{book.id}}"><img src="{{book.bookAvatarUrl}}" alt="{{book.title}}" class="card-img-top"></a>
     </div>
     <div class="card-body p-1">
-        <h6 class="card-title text-center mb-2" routerLink="/book/{{book.id}}">
+        <h5 class="card-title text-center my-2" routerLink="/book/{{book.id}}">
             {{book.title}}
-        </h6>
+        </h5>
+        <p class="text-center mt-3 mb-0">Category: 
+            <span class="author" >
+                 {{book.categoryName}}
+            </span>
+        </p>
         <p class="text-center mt-3">Authors: 
             <span *ngFor="let author of getAuthors(); let last" class="author" [routerLink]="['/author/', author.id]">
                  {{author.name}}

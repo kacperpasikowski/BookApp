@@ -20,7 +20,7 @@ namespace API.Controllers
 			_userService = userService;
 		}
 		
-		
+		//https://localhost:5001/auth/register
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
 		{
@@ -36,6 +36,7 @@ namespace API.Controllers
 			
 		}
 		
+		//https://localhost:5001/auth/login
 		[HttpPost("login")]
 		public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
 		{

@@ -12,6 +12,7 @@ namespace API.DTOs
 		public string Description { get; set; }
 		public DateOnly DateOfPublish { get; set; }
 		public string PublisherName { get; set; }
+		public string CategoryName { get; set; }
 		public string BookAvatarUrl { get; set; }
 		public List<BookAuthorsDto> Authors { get; set; }
 		public List<CategoryDto> Categories { get; set; }
