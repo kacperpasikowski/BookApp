@@ -46,18 +46,18 @@ export class BookService {
     return this.http.get<BookDetail>(`${this.apiUrl}/${id}`);
   }
 
-  searchBooks(query: string, pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResult<BookDetail[]>> {
-    let params = this.setPaginationHeaders(pageNumber, pageSize);
-    params = params.append('query', query);
+  // searchBooks(query: string, pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResult<BookDetail[]>> {
+  //   let params = this.setPaginationHeaders(pageNumber, pageSize);
+  //   params = params.append('query', query);
   
-    return this.http.get<BookDetail[]>(`${this.apiUrl}/search`, { observe: 'response', params }).pipe(
-      map(response => {
-        const paginatedResult: PaginatedResult<BookDetail[]> = {
-          items: response.body as BookDetail[],
-          pagination: JSON.parse(response.headers.get('Pagination')!)
-        };
-        return paginatedResult;
-      })
-    );
-  }
+  //   return this.http.get<BookDetail[]>('https:localhost:5001/api/search', { observe: 'response', params }).pipe(
+  //     map(response => {
+  //       const paginatedResult: PaginatedResult<BookDetail[]> = {
+  //         items: response.body as BookDetail[],
+  //         pagination: JSON.parse(response.headers.get('Pagination')!)
+  //       };
+  //       return paginatedResult;
+  //     })
+  //   );
+  // }
 }

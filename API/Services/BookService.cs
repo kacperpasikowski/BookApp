@@ -26,42 +26,7 @@ namespace API.Services
 			_categoryRepository = categoryRepository;
 		}
 
-		public async Task<PagedList<GetBookDto>> SearchBooksAsync(UserParams userParams, string query)
-		{
-			var pagedBooks = await _bookRepository.GetAllBooksAsync(userParams);
-			
-			query = query.ToLower();
-			
-			var filteredBooks = pagedBooks.Where(book =>
-				book.Title.ToLower().Contains(query) ||
-				book.BookAuthors.Any(ba => ba.Author.Name.Contains(query))
-			);
-
-			var bookDtos = filteredBooks.Select(book => new GetBookDto
-			{
-				Id = book.Id,
-				Title = book.Title,
-				Description = book.Description,
-				DateOfPublish = book.DateOfPublish,
-				PublisherName = book.Publisher.Name,
-				BookAvatarUrl = book.BookAvatarUrl,
-				Authors = book.BookAuthors.Select(ba => new BookAuthorsDto
-				{
-					Id = ba.Author.Id,
-					Name = ba.Author.Name,
-
-				}).ToList(),
-				Categories = book.BookCategories.Select(bc => new CategoryDto
-				{
-					Id = bc.Category.Id,
-					Name = bc.Category.Name
-				}).ToList()
-			}).ToList();
-
-			return new PagedList<GetBookDto>(bookDtos, pagedBooks.TotalCount, userParams.PageNumber, userParams.PageSize);
-
-		}
-
+		
 		public async Task<PagedList<GetBookDto>> GetAllBooksAsync(UserParams userParams)
 		{
 			var pagedBooks = await _bookRepository.GetAllBooksAsync(userParams);

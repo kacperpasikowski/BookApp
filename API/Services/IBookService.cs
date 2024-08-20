@@ -11,7 +11,7 @@ namespace API.Services
 	public interface IBookService
 	{
 		Task<PagedList<GetBookDto>> GetAllBooksAsync(UserParams userParams);
-		Task<PagedList<GetBookDto>> SearchBooksAsync(UserParams userParams, string query);
+
 		Task<GetBookDto> GetBookByIdAsync(Guid id);
 		Task<GetBookDto> AddBookAsync(AddBookDto addBookDto);
 		Task<GetBookDto> UpdateBookAsync(Guid id, AddBookDto addBookDto);

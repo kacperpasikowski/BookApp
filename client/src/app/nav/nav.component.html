@@ -21,10 +21,7 @@
                         <i class="fa fa-bars pe-2"></i>Books
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" aria-current="page" routerLink="login">Login</a>
-                     
-                </li>
+                
             </ul>
             <form class="d-flex align-items-center w-100 form-search" (submit)="onSearch()" autocomplete="off">
                 <input type="search" class="form-control" placeholder="Search" name="searchQuery" [(ngModel)]="query"
@@ -33,29 +30,52 @@
             </form>
             <ul class="navbar-nav ms-3">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center me-3" routerLink="author">
+                    <a class="nav-link d-flex align-items-center pe-1" routerLink="author">
                         <i class="fa fa-bookmark pe-2"></i> Authors
                     </a>
                 </li>
                 
-                <li class="nav-item mt-1 ms-1">
+                <li class="nav-item pt-1 ms-1" *ngIf="currentUser">
                     <a class="nav-link active d-flex align-items-center" style="cursor:pointer" (click)="toggleUserPanel.emit()">
                         <i class="fa fa-envelope fs-5"></i>
                     </a>
                 </li>
+                <li class="nav-item" *ngIf="!currentUser">
+                    <a class="nav-link d-flex align-items-center me-3" routerLink="login">
+                         Login
+                    </a>
+                </li>
+                <div class="btn-group" dropdown *ngIf="currentUser">
+                    <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"
+                        aria-controls="dropdown-animated" >
+                        Hello {{currentUser.userName}} <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                        aria-labelledby="button-animated">
+                        <li role="menuitem"><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Logout</a></li>
+                        <li role="menuitem"><a class="dropdown-item" style="cursor: pointer;" >Your profile</a></li>
+                    </ul>
+                </div>
             </ul>
         </div>
     </div>
     <div *ngIf="results.length > 0" class="search-results">
-        <div *ngFor="let book of results" (click)="goToDetail('book', book.id)" class="search-result">
-            <img [src]="book.bookAvatarUrl" alt="Book Cover" />
-            <div class="result-details">
-                <span class="result-title">{{ book.title }}</span>
-                <div class="result-info">
-                    <span *ngIf="book.authors.length > 0">Autor: {{ book.authors[0].name }}</span>
-                    <span *ngIf="book.categories.length > 0"> | Kategoria: {{ book.categories[0].name}}</span>
-                </div>
+    <div *ngFor="let result of results" (click)="goToDetail(result.type, result.id)" class="search-result">
+        <img [src]="result.avatarUrl" alt="{{ result.titleOrAuthorName }}" />
+        <div class="result-details">
+            <span class="result-title"><strong>{{ result.titleOrAuthorName }}</strong></span>
+            <div class="result-info">
+                <span *ngIf="result.type === 'Book' && result.authors.length > 0">
+                    Autor: {{ result.authors[0].name }}
+                </span>
+                <span *ngIf="result.type === 'Book' && result.categories.length > 0"> 
+                    | Kategoria: {{ result.categories[0].name }}
+                </span>
+                <span *ngIf="result.type === 'Author' && result.mainCategory">
+                    Główna kategoria: {{ result.mainCategory }}
+                </span>
             </div>
         </div>
     </div>
+</div>
 </nav>

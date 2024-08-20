@@ -1,8 +1,12 @@
-import { Component, ElementRef, EventEmitter, HostListener, Inject, Output } from '@angular/core';
+import { Component, effect, ElementRef, EventEmitter, HostListener, Inject, Output } from '@angular/core';
 import { BookDetail } from '../models/book-detail.model';
 import { BookService } from '../services/book.service';
 import { Router } from '@angular/router';
 import { SidebarService } from '../services/sidebar.service';
+import { User } from '../models/user.model';
+import { AccountService } from '../services/account.service';
+import { SearchService } from '../services/search.service';
+import { SearchResult } from '../models/search-result-model';
 
 @Component({
   selector: 'app-nav',
@@ -11,42 +15,49 @@ import { SidebarService } from '../services/sidebar.service';
 })
 export class NavComponent {
   query: string = '';
-  results: BookDetail[] = [];
+  results: SearchResult[] = [];
   pageNumber: number = 1;
   pageSize: number = 10;
+  currentUser: User | null = null;
   @Output() toggleUserPanel = new EventEmitter<void>();
 
 
-  constructor(private bookService: BookService, private sidebarService: SidebarService,private router: Router,
-     private elementRef: ElementRef) { }
+  constructor(private searchService: SearchService, private sidebarService: SidebarService,private router: Router,
+    private accountService: AccountService) {
+      effect(() => {
+        this.currentUser = this.accountService.currentUser();
+      })
+     }
 
   
 
-  onSearch() {
-    if (this.query.length > 1) {
-      this.bookService.searchBooks(this.query, this.pageNumber, this.pageSize).subscribe({
-        next: data => {
-          if (data && data.items) {
+  onSearch(){
+    if(this.query.length>1){
+      this.searchService.search(this.query, this.pageNumber, this.pageSize).subscribe({
+        next : data => {
+          if (data && data.items){
             this.results = data.items;
-            
-          } else {
+          }else{
             this.results = [];
           }
         },
-        error: error => console.log('Search error:', error) 
+        error: error => console.log(error)
       });
-    } else {
+    }else{
       this.results = [];
-      
     }
+  }
+
+  logout(){
+    this.accountService.logout();
   }
 
 
   goToDetail(type: string, id: string) {
     this.results = [];
-    if (type === 'book') {
+    if (type === 'Book') {
       this.router.navigate(['/book', id])
-    } else if (type === 'author') {
+    } else if (type === 'Author') {
       this.router.navigate(['author', id])
     }
   }
@@ -54,5 +65,6 @@ export class NavComponent {
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
   }
+  
   
 }
