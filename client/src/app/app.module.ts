@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -27,6 +27,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { LoginComponent } from './login/login.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 
 
@@ -66,7 +67,9 @@ import { LoginComponent } from './login/login.component';
     MatToolbarModule,
     MatDividerModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

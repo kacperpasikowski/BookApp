@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   selectedUser: User | null = null;
   chatWindows: User[] = [];
   private accountService = inject(AccountService);
+  currentUser: User|null = null;
   
 
   constructor(private userService: UserService){}
@@ -23,15 +24,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
-    this.setCurrentUser();
+    this.accountService.currentUser$.subscribe(user =>{
+      this.currentUser = user;
+    })
   }
 
-  setCurrentUser(){
-    const userString = localStorage.getItem('user');
-    if(!userString) return;
-    const user = JSON.parse(userString);
-    this.accountService.currentUser.set(user);
-  }
 
   sendMessage(user: any) {
     console.log(`Sending message to ${user.name}`);

@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, EventEmitter, HostListener, Inject, Output } from '@angular/core';
+import { Component, effect, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output } from '@angular/core';
 import { BookDetail } from '../models/book-detail.model';
 import { BookService } from '../services/book.service';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { SearchResult } from '../models/search-result-model';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent  implements OnInit{
   query: string = '';
   results: SearchResult[] = [];
   pageNumber: number = 1;
@@ -24,10 +24,14 @@ export class NavComponent {
 
   constructor(private searchService: SearchService, private sidebarService: SidebarService,private router: Router,
     private accountService: AccountService) {
-      effect(() => {
-        this.currentUser = this.accountService.currentUser();
-      })
      }
+
+
+  ngOnInit(): void {
+    this.accountService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    })
+  }
 
   
 
@@ -50,6 +54,7 @@ export class NavComponent {
 
   logout(){
     this.accountService.logout();
+    this.router.navigate(['/login']);
   }
 
 

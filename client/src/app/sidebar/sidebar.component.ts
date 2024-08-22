@@ -21,8 +21,11 @@ export class SidebarComponent implements OnInit {
   constructor(private userService: UserService){}
 
   ngOnInit(): void {
-    this.currentUser = this.accountService.currentUser();
-    this.loadUsers()
+    this.accountService.currentUser$.subscribe(user=>{
+      this.currentUser = user;
+      this.loadUsers();
+    })
+    
   }
 
   selectUser(user: User): void {
@@ -34,15 +37,9 @@ export class SidebarComponent implements OnInit {
   loadUsers(){
     this.userService.getAllUsers().subscribe({
       next: users =>{
-        this.users = users.filter(user => user.userName !== this.currentUser?.userName);
+        this.users = users.filter(user => user.userName.toLowerCase() !== this.currentUser?.userName.toLowerCase());
       },
-      error: error => console.log(error)
+    error: error => console.log(error)
     });
   }
-
-  
-
-
-
-  
 }

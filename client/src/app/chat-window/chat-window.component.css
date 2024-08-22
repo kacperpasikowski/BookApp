@@ -2,7 +2,7 @@
     position: relative;
     bottom: 0;
     width: 300px;
-    max-height: 400px;
+    max-height: 300px;
     background: white;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -15,12 +15,14 @@
 
 .chat-header {
     display: flex;
-    justify-content: space-between; /* Rozkłada elementy po lewej i prawej stronie */
+    justify-content: space-between;
+    /* Rozkłada elementy po lewej i prawej stronie */
     align-items: center;
-    padding: 8px;
+    padding: 5px;
     background: #3f51b5;
     color: white;
 }
+
 .chat-header-left {
     display: flex;
     align-items: center;
@@ -47,8 +49,26 @@
 .chat-input button {
     margin-left: 8px;
 }
-.chat-avatar{
+
+.chat-avatar {
     height: 38px;
     border-radius: 50%;
 
 }
+
+.message-sender {
+    display: flex;
+    align-items: center;
+}
+
+.message-sender .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+

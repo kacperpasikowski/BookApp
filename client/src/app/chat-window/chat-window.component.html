@@ -1,18 +1,30 @@
 <div class="chat-window" *ngIf="selectedUser">
     <div class="chat-header">
         <div class="chat-header-left">
-            <span><img [src]="selectedUser.userAvatarUrl" alt="{{selectedUser.userName}}" class="chat-avatar pe-2"></span>
+            <span><img [src]="selectedUser.userAvatarUrl" alt="{{selectedUser.userName}}"
+                    class="chat-avatar pe-2"></span>
             <span>{{ selectedUser.userName }}</span>
         </div>
         <button mat-icon-button (click)="closeChat.emit()">
             <mat-icon>close</mat-icon>
         </button>
     </div>
-    <div class="chat-content">
-        <!-- Wiadomości czatu -->
-    </div>
+    <div class="chat-content" #chatContent>
+        <div *ngFor="let message of messages" class="message">
+          <div class="message-sender">
+            <img *ngIf="message.senderUsername === selectedUser.userName" 
+                 [src]="selectedUser.userAvatarUrl" 
+                 alt="{{ message.senderUsername }}" class="avatar">
+            <img *ngIf="message.senderUsername !== selectedUser.userName " 
+                 [src]="currentUser?.userAvatarUrl" 
+                 alt="{{ message.senderUsername }}" class="avatar">
+            <strong>{{ message.senderUsername }}:</strong>
+          </div>
+          <p>{{ message.content }}</p>
+        </div>
+      </div>
     <div class="chat-input">
-        <input [(ngModel)]="message" placeholder="Type a message...">
+        <input [(ngModel)]="messageContent" placeholder="Type a message...">
         <button mat-icon-button (click)="sendMessage()">
             <mat-icon>send</mat-icon>
         </button>

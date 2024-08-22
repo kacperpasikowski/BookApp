@@ -33,7 +33,7 @@ namespace API.Controllers
 		public async Task<IActionResult> CreateMessage([FromBody] CreateMessageDto createMessageDto)
 		{
 			var username = User.GetUsername();
-			if (username == createMessageDto.RecipientUsername.ToLower())
+			if (username.ToLower() == createMessageDto.RecipientUsername.ToLower())
 			{
 				return BadRequest("You cannot send message to yourself");
 			}
@@ -53,7 +53,7 @@ namespace API.Controllers
 
 			_messageRepository.AddMessage(message);
 
-			if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
+			if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message)+ $"wysyłający: {username}, odbierający {recipient.UserName}");
 
 			return BadRequest("Failed to save message");
 
@@ -73,11 +73,11 @@ namespace API.Controllers
 
 		}
 
-		[HttpGet("thread/{username}")]
-		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+		[HttpGet("thread/{userName}")]
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string userName)
 		{
 			var currentUsername = User.GetUsername();
-			return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
+			return Ok(await _messageRepository.GetMessageThread(currentUsername, userName));
 		}
 	}
 }

@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
-import { map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  private http = inject(HttpClient);
   baseUrl = 'https://localhost:5001/api/';
-  currentUser = signal<User | null>(null);
+  private http = inject(HttpClient);
+  private currentUserSource = new BehaviorSubject<User | null> (null);
+  
+  currentUser$ = this.currentUserSource.asObservable();
+
+  constructor(){
+    this.setCurrentUser();
+  }
   
 
   login(model: any){
@@ -17,13 +23,24 @@ export class AccountService {
       map(user => {
         if(user){
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentUser.set(user);
+          this.currentUserSource.next(user);
         }
       })
     )
   }
   logout(){
     localStorage.removeItem('user');
-    this.currentUser.set(null);
+    this.currentUserSource.next(null);
+  }
+
+  setCurrentUser(){
+    const userString = localStorage.getItem('user');
+    if(!userString) return;
+    const user: User = JSON.parse(userString);
+    this.currentUserSource.next(user);
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSource.value;
   }
 }
