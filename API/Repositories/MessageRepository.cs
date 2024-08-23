@@ -59,13 +59,14 @@ namespace API.Repositories
 			
 		}
 
-		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
+		public async Task<PagedList<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername, PaginationParams paginationParams)
 		{
-			var messages = await _context.Messages
+			var messages = _context.Messages
 						.Where(m => (m.RecipientUsername == currentUsername && m.SenderUsername == recipientUsername) ||
 									(m.RecipientUsername == recipientUsername && m.SenderUsername == currentUsername))
-						.OrderBy(m => m.MessageSent)
-						.ToListAsync();
+						.OrderByDescending(m => m.MessageSent)
+						.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
+						.AsQueryable();
 			
 			var unreadMessages = messages.Where(x => x.DateRead == null&& x.RecipientUsername == currentUsername ).ToList();
 			
@@ -75,7 +76,7 @@ namespace API.Repositories
 				await _context.SaveChangesAsync();
 			}
 			
-			return _mapper.Map<IEnumerable<MessageDto>>(messages);
+			return await PagedList<MessageDto>.CreateAsync(messages, paginationParams.PageNumber,paginationParams.PageSize);
 		}
 
 		public async Task<bool> SaveAllAsync()

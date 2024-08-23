@@ -28,6 +28,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { LoginComponent } from './login/login.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 
 
@@ -59,6 +60,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     BsDropdownModule.forRoot(),
     PaginationModule.forRoot(),
     MatSidenavModule,
+    MatProgressSpinnerModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatListModule,

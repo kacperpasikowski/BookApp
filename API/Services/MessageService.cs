@@ -56,9 +56,9 @@ namespace API.Services
 			return await _messageRepository.GetMessagesForUser(messageParams);
 		}
 
-		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
-		{
-			return await _messageRepository.GetMessageThread(currentUsername, recipientUsername);
-		}
+		// public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
+		// {
+		// 	return await _messageRepository.GetMessageThread(currentUsername, recipientUsername);
+		// }
 	}
 }

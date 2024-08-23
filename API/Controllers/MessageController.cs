@@ -53,7 +53,7 @@ namespace API.Controllers
 
 			_messageRepository.AddMessage(message);
 
-			if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message)+ $"wysyłający: {username}, odbierający {recipient.UserName}");
+			if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
 
 			return BadRequest("Failed to save message");
 
@@ -74,10 +74,14 @@ namespace API.Controllers
 		}
 
 		[HttpGet("thread/{userName}")]
-		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string userName)
+		public async Task<ActionResult<PagedList<MessageDto>>> GetMessageThread(string userName, [FromQuery] PaginationParams paginationParams)
 		{
 			var currentUsername = User.GetUsername();
-			return Ok(await _messageRepository.GetMessageThread(currentUsername, userName));
+			var messages = await _messageRepository.GetMessageThread(currentUsername, userName, paginationParams);
+			
+			Response.AddPaginationHeader(messages);
+			
+			return Ok(messages);
 		}
 	}
 }
