@@ -70,7 +70,6 @@ namespace API.Controllers
 
 			return messages;
 
-
 		}
 
 		[HttpGet("thread/{userName}")]

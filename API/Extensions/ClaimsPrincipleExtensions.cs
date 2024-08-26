@@ -14,11 +14,17 @@ namespace API.Extensions
 			
 			return username;
 		}
-		public static string GetUserId(this ClaimsPrincipal user)
+		public static Guid GetUserId(this ClaimsPrincipal user)
 		{
-			var userId = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("cannot get Id from token");
+			var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier);
+			
+			if(string.IsNullOrEmpty(userIdString)|| !Guid.TryParse(userIdString, out var userId))
+			{
+				throw new Exception("cannot get Id from Token");
+			}
 			
 			return userId;
+			
 		}
 	}
 }

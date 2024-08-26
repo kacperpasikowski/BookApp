@@ -16,6 +16,11 @@ namespace API.Services
 		Task<UserDto> LoginUserAsync(LoginModel loginModel);
 		Task<ServiceResult> DeleteUserByUserNameAsync(string userName);
 		Task<PagedList<GetAllUsersDto>> GetAllUsersAsync(UserParams userParams);
+		Task<GetAllUsersDto> GetUserByUsername(string userName);
+		
+		public Task<List<ReadBooksDto>> GetReadBooksAsync(Guid userId);
+		public Task<List<FavoriteAuthorsDto>> GetFavoriteAuthorsAsync(Guid userId);
+		
 		
 	}
 }

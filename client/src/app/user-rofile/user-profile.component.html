@@ -1,0 +1,54 @@
+<div *ngIf="user">
+    <div >
+        <div class="profile-header">
+            <img src="{{user.userAvatarUrl}}" alt="Profile Picture">
+            <h1>{{ user.userName }}</h1>
+            <p></p>
+        </div>
+    
+        <!-- Zawartość profilu -->
+        <div class="profile-content">
+    
+            <!-- Informacje kontaktowe -->
+            <div class="profile-section profile-contact">
+                <h2>Contact Information</h2>
+    
+            </div>
+    
+            <!-- Ulubione książki -->
+            <div class="profile-section profile-favorites">
+                <h2>Favorite Books</h2>
+                <ul class="read-books">
+                    <li *ngFor="let book of user.readBooks">
+                        {{book.title}}
+                    </li>
+                </ul>
+            </div>
+            <div class="profile-section profile-favorites">
+                <h2>Favorite Authors</h2>
+                <ul class="read-books">
+                    <li *ngFor="let author of user.favoriteAuthors">
+                        {{author.name}}
+                    </li>
+                </ul>
+            </div>
+    
+    
+            <!-- Oceny i recenzje -->
+            <div class="profile-section profile-reviews">
+                <h2>My Reviews</h2>
+                <ul class="user-reviews">
+                    <!-- <li *ngFor="let review of userReviews">
+                        <div class="book-title">{{ review.bookTitle }}</div>
+                        <div class="review-rating">{{ review.rating }} / 5</div>
+                        <div class="review-content">{{ review.content }}</div>
+                    </li> -->
+                </ul>
+            </div>
+    
+        </div>
+    </div>
+    
+    
+</div>
+

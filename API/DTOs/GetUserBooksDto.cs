@@ -11,6 +11,7 @@ namespace API.DTOs
 		public string UserName { get; set; }
 		public Guid BookId { get; set; }
 		public string BookTitle { get; set; }
+		
 		public DateOnly DateRead { get; set; }
 	}
 }

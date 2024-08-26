@@ -26,6 +26,13 @@ namespace API.Controllers
 			var users = await _userService.GetAllUsersAsync(userParams);
 			return Ok(users);
 		}
+		[HttpGet("{userName}")]
+		public async Task<IActionResult> GetUserByUserName(string userName)
+		{
+			var user = await _userService.GetUserByUsername(userName);
+			
+			return Ok(user);
+		}
 		
 		[HttpDelete("delete/{userName}")]
 		public async Task<IActionResult> DeleteUser(string userName)

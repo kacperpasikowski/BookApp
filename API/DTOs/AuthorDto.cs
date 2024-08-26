@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-	public class AddBookGradeDto
+	public class AuthorDto
 	{
-		public Guid BookId { get; set; }
-		public int Grade { get; set; }
+		public string Name { get; set; }
+		public string AuthorAvatarUrl { get; set; }
 	}
 }

@@ -3,6 +3,9 @@ import { BookService } from '../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { BookDetail } from '../models/book-detail.model';
 import { Subscription } from 'rxjs';
+import { GradeModel } from '../models/grade-model';
+import { User } from '../models/user.model';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-bookdetail',
@@ -10,17 +13,22 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./bookdetail.component.css']
 })
 export class BookdetailComponent implements OnInit, OnDestroy {
-  
-  
-  
   private bookService = inject(BookService);
   private route = inject(ActivatedRoute);
+  private accountService = inject(AccountService);
   book: BookDetail = {} as BookDetail;
   routeSubscription: Subscription | undefined;
+  selectedGrade = 0;
+  currentUser: User | null = null;
+
+  hoveredGrade: number = 0;
 
 
 
   ngOnInit(): void {
+    this.accountService.currentUser$.subscribe(user =>{
+      this.currentUser = user;
+    })
     this.routeSubscription = this.route.params.subscribe(params => {
       const id = params['id'];
       this.loadBook(id);
@@ -38,6 +46,8 @@ export class BookdetailComponent implements OnInit, OnDestroy {
     this.bookService.getBook(id).subscribe({
       next: book => {
         this.book = book;
+        this.selectedGrade = 0;
+        this.hoveredGrade = 0;
         console.log(this.book);
       }
     });
@@ -55,5 +65,34 @@ export class BookdetailComponent implements OnInit, OnDestroy {
       return 'Unknown'
     }
     return this.book.categories.map(category => category.name).join(', ') || "Unknown"
+  }
+
+  getStarArray() : number[] {
+    return Array.from({length: 5}, (_, index) => index+1);
+  }
+
+  selectGrade(star: number){
+    this.selectedGrade = star;
+    this.hoveredGrade = 0;
+  }
+
+  hoverGrade(star: number){
+    this.hoveredGrade = star;
+  }
+  resetHover(){
+    this.hoveredGrade = 0;
+  }
+
+  submitGrade() : void{
+    if(this.selectedGrade > 0){
+      const gradeModel: GradeModel = {bookId: this.book.id, grade: this.selectedGrade};
+      this.bookService.addOrUpdateGrade(gradeModel).subscribe({
+        next: () => {
+          console.log("updadet succesfully");
+          this.loadBook(this.book.id);
+        },
+        error: error => console.log(error)
+      })
+    }
   }
 }

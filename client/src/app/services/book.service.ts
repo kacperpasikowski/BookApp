@@ -6,6 +6,7 @@ import { BookDetail } from '../models/book-detail.model';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { GradeModel } from '../models/grade-model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,18 +47,9 @@ export class BookService {
     return this.http.get<BookDetail>(`${this.apiUrl}/${id}`);
   }
 
-  // searchBooks(query: string, pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResult<BookDetail[]>> {
-  //   let params = this.setPaginationHeaders(pageNumber, pageSize);
-  //   params = params.append('query', query);
   
-  //   return this.http.get<BookDetail[]>('https:localhost:5001/api/search', { observe: 'response', params }).pipe(
-  //     map(response => {
-  //       const paginatedResult: PaginatedResult<BookDetail[]> = {
-  //         items: response.body as BookDetail[],
-  //         pagination: JSON.parse(response.headers.get('Pagination')!)
-  //       };
-  //       return paginatedResult;
-  //     })
-  //   );
-  // }
+
+  addOrUpdateGrade(gradeModel: GradeModel){
+    return this.http.post("https://localhost:5001/api/userbook/grade", gradeModel)
+  }
 }

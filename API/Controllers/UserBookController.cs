@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.Extensions;
 using API.helpers;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,9 @@ namespace API.Controllers
 		[HttpPost("grade")]
 		public async Task<IActionResult> AddOrUpdateBookGrade([FromBody] AddBookGradeDto addBookGradeDto)
 		{
-			await _userBookService.AddOrUpdateGradeAsync(addBookGradeDto.UserId, addBookGradeDto.BookId,addBookGradeDto.Grade );
+			var userId = User.GetUserId();
+			
+			await _userBookService.AddOrUpdateGradeAsync(userId, addBookGradeDto.BookId,addBookGradeDto.Grade );
 			return Ok();
 		}
 		

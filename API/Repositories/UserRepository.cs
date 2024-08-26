@@ -33,7 +33,7 @@ namespace API.Repositories
 			
 			return await PagedList<AppUser>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
 		}
-
+		
 		public async Task<IdentityResult> DeleteUserAsync(AppUser user)
 		{
 			return await _userManager.DeleteAsync(user);
@@ -54,9 +54,11 @@ namespace API.Repositories
 			return await _signInManager.PasswordSignInAsync(userName, password, false, false);
 		}
 
-        public async Task<AppUser> FindUserByIdAsync(Guid userId)
-        {
-            return await _context.Users.FindAsync(userId);
-        }
-    }
+		public async Task<AppUser> FindUserByIdAsync(Guid userId)
+		{
+			return await _context.Users.FindAsync(userId);
+		}
+
+		
+	}
 }

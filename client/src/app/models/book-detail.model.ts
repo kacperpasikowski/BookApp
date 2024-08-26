@@ -6,6 +6,7 @@ export interface BookDetail{
     title: string;
     description: string;
     dateOfPublish: string;
+    averageGrade: number;
     publisherName: string;
     publisherId: string;
     bookAvatarUrl: string;

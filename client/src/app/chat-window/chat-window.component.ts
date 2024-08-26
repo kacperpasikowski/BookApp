@@ -4,63 +4,81 @@ import { Message } from '../models/messsage-model';
 import { MessageService } from '../services/message.service';
 import { AccountService } from '../services/account.service';
 import { PaginationService } from '../services/pagination.service';
+import { ChatStateService } from '../services/chat-state.service';
 
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.css']
 })
-export class ChatWindowComponent implements OnInit, AfterViewInit{
-  
-  
-
+export class ChatWindowComponent implements OnInit, AfterViewInit {
   @Input() selectedUser!: User;
   @Output() closeChat = new EventEmitter<void>();
-  @ViewChild('chatContent', {static: false}) chatContent!: ElementRef;
+  @ViewChild('chatContent', { static: false }) chatContent!: ElementRef;
   private cdr = inject(ChangeDetectorRef);
   private messageService = inject(MessageService);
   private accountService = inject(AccountService);
   private paginationService = inject(PaginationService);
+  private chatService = inject(ChatStateService);
   messages: Message[] = [];
   messageContent: string = '';
-  currentUser: User | null =null;
+  currentUser: User | null = null;
   loading = false;
   autoScrollEnabled = true;
   allMessagesLoaded = false;
   showLoader = false;
+  previousScrollHeight = 0;
 
 
-  
+
 
   ngOnInit(): void {
-    this.accountService.currentUser$.subscribe(user =>{
+    this.accountService.currentUser$.subscribe(user => {
       this.currentUser = user;
-    })
-    this.loadMessageThread();
+    });
+    this.loadChatState();
+    if (!this.messages.length) {
+      this.loadMessageThread();
+    }
   }
-  
+
   ngAfterViewInit(): void {
     this.scrollToBottom();
   }
 
- 
+  private loadChatState() {
+    this.messages = this.chatService.getMessages();
+    this.allMessagesLoaded = this.chatService.getAllMessagesLoaded();
+    this.paginationService.setPageNumber(this.chatService.getCurrentPage());
+  }
+
+
 
   loadMessageThread(): void {
     if (this.selectedUser && !this.allMessagesLoaded) {
-      this.loading = true;
-      
+
+
+
       this.messageService.getMessageThread(this.selectedUser.userName).subscribe({
         next: result => {
-          if(result.items)
-          {if (result.items.length < this.paginationService.getPageSize()) {
-            this.allMessagesLoaded = true;
-          }}
+          if (result.items) {
+            if (result.items.length < this.paginationService.getPageSize()) {
+              this.allMessagesLoaded = true;
+            }
+          }
           this.messages = [...result.items!.reverse(), ...this.messages];
           this.loading = false;
           this.showLoader = false;
-          
+
           this.cdr.detectChanges();
-          if(this.autoScrollEnabled){
+          const element = this.chatContent.nativeElement;
+          const newScrollHeight = element.scrollHeight;
+
+          element.scrollTop = newScrollHeight - this.previousScrollHeight;
+          this.previousScrollHeight = newScrollHeight;
+
+          this.cdr.detectChanges();
+          if (this.autoScrollEnabled) {
             this.scrollToBottom();
             this.autoScrollEnabled = false;
           }
@@ -76,18 +94,21 @@ export class ChatWindowComponent implements OnInit, AfterViewInit{
 
   loadMoreMessages(): void {
     if (!this.allMessagesLoaded && !this.loading) {
-      this.showLoader = true;  
+      const element = this.chatContent.nativeElement;
+      this.previousScrollHeight = element.scrollHeight;
+
+      this.showLoader = true;
       setTimeout(() => {
         this.paginationService.setPageNumber(this.paginationService.getPageNumber() + 1);
         this.loadMessageThread();
-      }, 1000);  
+      }, 500);
     }
   }
 
   onScrollTop(event: any): void {
     const element = event.target;
     if (element.scrollTop == 0 && !this.loading) {
-      this.loadMoreMessages(); 
+      this.loadMoreMessages();
     }
   }
 
@@ -102,12 +123,12 @@ export class ChatWindowComponent implements OnInit, AfterViewInit{
     }
   }
 
-  sendMessage(){
+  sendMessage() {
     this.messageService.sendMessage(this.selectedUser.userName, this.messageContent).subscribe({
       next: message => {
         this.messages.push(message);
         this.messageContent = '';
-        
+        this.chatService.setMessages(this.messages);
         this.cdr.detectChanges();
         this.scrollToBottom();
 
@@ -116,5 +137,10 @@ export class ChatWindowComponent implements OnInit, AfterViewInit{
     })
   }
 
-  
+  closeChatWindow() {
+    this.closeChat.emit();
+    this.chatService.clearState();
+  }
+
+
 }

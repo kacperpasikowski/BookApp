@@ -11,7 +11,7 @@
                     <div>
                         <p class="pt-2">Authors: 
                             <span *ngFor="let author of getAuthors(); let last = last">
-                                <p class="book-detail" [routerLink]="['/author/', author.id]">{{author.name}}</p><span *ngIf="!last">, </span>
+                                <a class="book-detail" [routerLink]="['/author/', author.id]">{{author.name}}</a><span *ngIf="!last">, </span>
                             </span>
                         </p>
                     </div>
@@ -36,9 +36,27 @@
                 </div>
                 <div class="col-md-4">
                     <h5>Additional Info</h5>
-                    <p>ISBN: </p>
-                    <p>Pages:</p>
-                    <p>Language:</p>
+                    <p>Users Grade</p>
+                    <form *ngIf="currentUser" (ngSubmit)="submitGrade()" >
+                        <div class="star-rating">
+                            <ng-container *ngFor="let star of getStarArray()">
+                                <mat-icon
+                                [ngClass]="{'filled': star <= (hoveredGrade || selectedGrade || book.averageGrade)}"
+                                (mouseenter)="hoverGrade(star)"
+                                (mouseleave)="resetHover()"
+                                (click)="selectGrade(star)" 
+                                >star</mat-icon>
+                            </ng-container>
+                        </div>
+                        <button type="submit" class="btn btn-dark mt-2" [disabled]="selectedGrade ===0">submit your rating</button>
+                    </form>
+                    <div *ngIf="!currentUser" class="star-rating-no-user">
+                        <ng-container *ngFor="let star of getStarArray()">
+                            <mat-icon
+                            [ngClass]="{'filled': star <= book.averageGrade}"
+                            >star</mat-icon>
+                        </ng-container>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <h5>Reviews</h5>

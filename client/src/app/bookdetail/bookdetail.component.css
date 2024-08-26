@@ -27,3 +27,29 @@
   height: 20vw;
   object-fit: fill;
 }
+
+.star-rating{
+  display: flex;
+  align-items: center;
+  text-shadow: 0 0 1px black;
+}
+
+.star-rating .filled{
+  color: gold;
+}
+
+.star-rating mat-icon{
+  font-size: 24px;
+  color: gray;
+  cursor: pointer;
+}
+
+
+.star-rating mat-icon:hover {
+  color: orange; 
+}
+
+
+.star-rating-no-user .filled{
+  color: gold;
+}
