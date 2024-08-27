@@ -15,7 +15,14 @@ namespace API.Entities
 		public ICollection<UserFavoriteAuthor> UserFavoriteAuthors { get; set; }
 		public ICollection<BookGrade> BookGrades { get; set; }
 		public List<Message> MessagesSent { get; set; } = [];
-		public List<Message> MessagesReceived { get; set; } = [];
+		public List<Message> MessagesReceived { get; set; } = []; 
+		
+		public ICollection<FriendRequest> SentFriendRequest { get; set; }
+		public ICollection<FriendRequest> ReceivedFriendRequest { get; set; }
+		public ICollection<Friend> Friends { get; set; }
+		
+		
+		
 		
 	}
 }

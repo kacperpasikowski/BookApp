@@ -9,8 +9,12 @@ import { AddBookComponent } from './Admin/add-book/add-book.component';
 import { AdminBookListComponent } from './Admin/admin-book-list/admin-book-list.component';
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-rofile/user-profile.component';
+import { ChatWindowComponent } from './chat-window/chat-window.component';
+import { authGuard } from './guards/auth.guard';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
+
   {path: 'book/:id', component: BookdetailComponent},
   {path: 'author', component: AuthorListComponent},
   {path: 'author/:id', component: AuthorDetailComponent},
@@ -19,6 +23,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'user/:userName', component: UserProfileComponent},
   {path: '**', component: BookListComponent, pathMatch: 'full'},
+  
   
 ];
 

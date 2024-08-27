@@ -7,6 +7,7 @@ import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { GradeModel } from '../models/grade-model';
+import { MarkBookAsRead } from '../models/add-read-book-model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,11 @@ export class BookService {
   
 
   addOrUpdateGrade(gradeModel: GradeModel){
-    return this.http.post("https://localhost:5001/api/userbook/grade", gradeModel)
+    return this.http.post("https://localhost:5001/api/userbook/grade", gradeModel);
   }
+
+  addReadBook(markBookAsReadModel: MarkBookAsRead){
+    return this.http.post("https://localhost:5001/api/userbook/", markBookAsReadModel);
+  }
+
 }

@@ -10,6 +10,8 @@ namespace API.Repositories.Interfaces
 	public interface IUserAuthorRepository
 	{
 		Task AddFavoriteAuthorAsync(UserFavoriteAuthor userFavoriteAuthor);
+		
+		Task<UserFavoriteAuthor> GetUserFavoriteAuthorAsync(Guid userId, Guid authorId);
 		Task<PagedList<UserFavoriteAuthor>> GetUserFavoriteAuthorsAsync(Guid userId, UserParams userParams);
 	}
 }

@@ -65,6 +65,9 @@ builder.Services.AddScoped<IUserAuthorService, UserAuthorService>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IFriendsRepository, FriendRepository>();
+builder.Services.AddScoped<IFriendService, FriendService>();
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

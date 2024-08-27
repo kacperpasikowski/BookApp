@@ -26,6 +26,8 @@ namespace API.Data
 		public DbSet<UserBook> UserBooks { get; set; }
 		public DbSet<UserFavoriteAuthor> UserFavoriteAuthors { get; set; }
 		public DbSet<Message> Messages { get; set; }
+		public DbSet<Friend> Friends { get; set; }
+		public DbSet<FriendRequest> FriendRequests { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder builder)
@@ -110,6 +112,7 @@ namespace API.Data
 				.WithMany(c => c.BookCategories)
 				.HasForeignKey(bc => bc.CategoryId);
 
+			//Message
 			builder.Entity<Message>()
 				.HasOne(x => x.Recipient)
 				.WithMany(x => x.MessagesReceived)
@@ -118,6 +121,35 @@ namespace API.Data
 			builder.Entity<Message>()
 				.HasOne(x => x.Sender)
 				.WithMany(x => x.MessagesSent)
+				.OnDelete(DeleteBehavior.Restrict);
+				
+			//Friends
+			builder.Entity<Friend>()
+				.HasKey(f => new {f.UserId1, f.UserId2});
+			
+			builder.Entity<Friend>()
+				.HasOne(f => f.User1)
+				.WithMany(u => u.Friends)
+				.HasForeignKey(f => f.UserId1)
+				.OnDelete(DeleteBehavior.Restrict);
+				
+			builder.Entity<Friend>()
+				.HasOne(f => f.User2)
+				.WithMany()
+				.HasForeignKey(f => f.UserId2)
+				.OnDelete(DeleteBehavior.Restrict);
+				
+			//FriendRequests
+			builder.Entity<FriendRequest>()
+				.HasOne(fr => fr.Requester)
+				.WithMany(u => u.SentFriendRequest)
+				.HasForeignKey(fr => fr.FromUserId)
+				.OnDelete(DeleteBehavior.Restrict);
+				
+			builder.Entity<FriendRequest>()
+				.HasOne(fr => fr.Receiver)
+				.WithMany(u => u.ReceivedFriendRequest)
+				.HasForeignKey(fr => fr.ToUserId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 		}

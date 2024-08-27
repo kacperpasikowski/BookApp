@@ -1,6 +1,6 @@
 <app-nav (toggleUserPanel)="toggleUserPanel()"></app-nav>
 
-<mat-drawer-container class="example-container">
+<mat-drawer-container  class="example-container">
   <!-- Wysuwany panel boczny po prawej stronie -->
   <app-sidebar [userPanelOpened]="userPanelOpened" (toggleUserPanel)="toggleUserPanel()" [users]="users"
     (userSelected)="openChat($event)"></app-sidebar>

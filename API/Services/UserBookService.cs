@@ -31,6 +31,13 @@ namespace API.Services
 
 		public async Task AddUserBookAsync(Guid userId, Guid bookId, DateOnly dateRead)
 		{
+			var existingUserBook = await _userBookRepository.GetUserBookAsync(userId, bookId );
+			
+			if(existingUserBook != null)
+			{
+				throw new InvalidOperationException("this book is already in your collection.");
+			}
+			
 			var userBook = new UserBook
 			{
 				UserId = userId,
@@ -44,6 +51,8 @@ namespace API.Services
 		public async Task<PagedList<GetUserBooksDto>> GetUserBooksAsync(Guid userId, UserParams userParams)
 		{
 			var userBooks = await _userBookRepository.GetUserBooksAsync(userId, userParams);
+			
+			
 			
 			var userBookDtos = userBooks.Select(ub => new GetUserBooksDto
 			{

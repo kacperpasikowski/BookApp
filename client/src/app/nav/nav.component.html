@@ -24,7 +24,7 @@
                 
             </ul>
             <form class="d-flex align-items-center w-100 form-search" (submit)="onSearch()" autocomplete="off">
-                <input type="search" class="form-control" placeholder="Search" name="searchQuery" [(ngModel)]="query"
+                <input type="search" class="form-control" placeholder="Search..." name="searchQuery" [(ngModel)]="query"
                     (input)="onSearch()" aria-label="Search" />
                 <a href="#!" class="text-white"><i class="fa fa-search ps-3"></i></a>
             </form>
@@ -53,7 +53,7 @@
                     <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
                         aria-labelledby="button-animated">
                         <li role="menuitem"><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Logout</a></li>
-                        <li role="menuitem"><a class="dropdown-item" style="cursor: pointer;" routerLink="/user/{{currentUser.id}}">Your profile</a></li>
+                        <li role="menuitem"><a class="dropdown-item" style="cursor: pointer;" routerLink="/user/{{currentUser.userName}}">Your profile</a></li>
                     </ul>
                 </div>
             </ul>

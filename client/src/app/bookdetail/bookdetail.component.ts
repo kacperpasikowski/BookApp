@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { GradeModel } from '../models/grade-model';
 import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
+import { MarkBookAsRead } from '../models/add-read-book-model';
 
 @Component({
   selector: 'app-bookdetail',
@@ -95,4 +96,19 @@ export class BookdetailComponent implements OnInit, OnDestroy {
       })
     }
   }
+
+  markBookAsRead(): void {
+    if(this.currentUser){
+      const model: MarkBookAsRead = { bookId: this.book.id, dateRead: new Date().toISOString().split('T')[0]};
+      this.bookService.addReadBook(model).subscribe({
+        next: () => {
+          console.log("you have added book to your profile!");
+          this.loadBook(this.book.id);
+        },
+        error: error => console.log(error)
+      })
+    }
+  }
+
+
 }

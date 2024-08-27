@@ -18,6 +18,14 @@ namespace API.Services
 
 		public async Task AddUserFavoriteAuthorAsync(Guid userId, Guid authorId)
 		{
+			var existingFavoriteAuthor = await _userAuthorRepository.GetUserFavoriteAuthorAsync(userId, authorId);
+			
+			if(existingFavoriteAuthor != null)
+			{
+				throw new InvalidOperationException("this author is already in your collection");
+			}
+			
+			
 			var favoriteAuthor = new UserFavoriteAuthor
 			{
 				UserId = userId,

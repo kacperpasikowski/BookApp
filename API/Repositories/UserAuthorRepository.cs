@@ -18,17 +18,23 @@ namespace API.Repositories
 		{
 			_context = context;
 		}
-		
-		
+
+
 		public Task<PagedList<UserFavoriteAuthor>> GetUserFavoriteAuthorsAsync(Guid userId, UserParams userParams)
 		{
-			var query =  _context.UserFavoriteAuthors
+			var query = _context.UserFavoriteAuthors
 								.Where(ufa => ufa.UserId == userId)
 								.Include(ufa => ufa.Author)
 								.AsQueryable();
-			
+
 			return PagedList<UserFavoriteAuthor>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
 		}
+
+		public async Task<UserFavoriteAuthor> GetUserFavoriteAuthorAsync(Guid userId, Guid authorId)
+		{
+			return await _context.UserFavoriteAuthors.FirstOrDefaultAsync(fa => fa.UserId == userId && fa.AuthorId == authorId);
+		}
+
 
 		public async Task AddFavoriteAuthorAsync(UserFavoriteAuthor userFavoriteAuthor)
 		{
@@ -36,6 +42,6 @@ namespace API.Repositories
 			await _context.SaveChangesAsync();
 		}
 
-		
+
 	}
 }

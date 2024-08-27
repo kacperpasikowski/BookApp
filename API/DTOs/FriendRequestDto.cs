@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-	public class AddFavoriteAuthorDto
-	{
-		public Guid AuthorId { get; set; }
-	}
+    public class FriendRequestDto
+    {
+        public Guid ToUserId { get; set; }
+    }
 }

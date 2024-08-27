@@ -12,6 +12,7 @@ namespace API.Repositories.Interfaces
 		Task AddUserBookAsync(UserBook userBook);
 		Task<PagedList<UserBook>> GetUserBooksAsync(Guid userId, UserParams userParams);
 		Task AddOrUpdateBookGradeAsync(BookGrade bookGrade);
+		Task<UserBook> GetUserBookAsync(Guid userId, Guid bookId);
 		
 	}
 }

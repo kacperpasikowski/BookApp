@@ -32,12 +32,5 @@ export class UserProfileComponent implements OnInit{
       },
       error: error => console.log(error)
     })
-
   }
-
-
-  
-  
-
-
 }

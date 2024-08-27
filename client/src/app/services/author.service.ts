@@ -5,6 +5,7 @@ import { Author } from '../models/author.model';
 import { AuthorDetail } from '../models/author-detail-model';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
+import { MarkAuthorAsFavorite } from '../models/add-fav-author-model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +50,11 @@ export class AuthorService {
   getAllAuthors(){
     return this.http.get<AuthorDetail[]>(this.apiUrl)
   }
+
+  addFavAuthor(model: MarkAuthorAsFavorite){
+    return this.http.post("https://localhost:5001/api/userauthor/",model);
+  }
+
+
   
 }

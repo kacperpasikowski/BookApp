@@ -24,5 +24,7 @@ export class UserService {
   getUserBooks(userId: string): Observable<BookDetail[]> {
     return this.http.get<BookDetail[]>(`${this.apiUrl}userbook/${userId}`)
   }
+
+  
   
 }

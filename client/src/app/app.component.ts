@@ -2,6 +2,7 @@ import { Component, HostListener, inject, OnInit, Output } from '@angular/core';
 import { User } from './models/user.model';
 import { UserService } from './services/user.service';
 import { AccountService } from './services/account.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +16,23 @@ export class AppComponent implements OnInit {
   selectedUser: User | null = null;
   chatWindows: User[] = [];
   private accountService = inject(AccountService);
-  currentUser: User|null = null;
+  currentUser$: Observable<User | null> | undefined ;
   
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService){
+    this.currentUser$ = this.accountService.currentUser$;
+    this.currentUser$.subscribe(user => {
+      if (!user){
+        this.closeAllChats();
+      }
+    })
+  }
 
 
 
   ngOnInit(): void {
     this.loadUsers();
-    this.accountService.currentUser$.subscribe(user =>{
-      this.currentUser = user;
-    })
+  
   }
 
 
@@ -63,6 +69,10 @@ export class AppComponent implements OnInit {
 
   closeChat(index: number): void {
     this.chatWindows.splice(index, 1);
+  }
+
+  closeAllChats(){
+    this.chatWindows = [];
   }
 
 

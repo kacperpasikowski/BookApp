@@ -18,6 +18,11 @@ namespace API.Repositories
 		{
 			_context = context;
 		}
+		
+		public async Task<UserBook> GetUserBookAsync(Guid userId, Guid bookId)
+        {
+            return await _context.UserBooks.FirstOrDefaultAsync(ub => ub.UserId == userId && ub.BookId == bookId);
+        }
 
 		public Task<PagedList<UserBook>> GetUserBooksAsync(Guid userId, UserParams userParams)
 		{
@@ -59,5 +64,6 @@ namespace API.Repositories
 
 		}
 
-	}
+        
+    }
 }

@@ -24,6 +24,10 @@
                     <div>
                         <p>Categories: {{getCategories()}}</p>
                     </div>
+                    <div *ngIf="currentUser" class="my-2">
+                        <button class="btn btn-primary" (click)="markBookAsRead()">Add this book to your profile!</button>
+                    </div>
+
                 </div>
             </div>
         </div>
