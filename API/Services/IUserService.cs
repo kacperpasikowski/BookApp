@@ -20,6 +20,7 @@ namespace API.Services
 		
 		public Task<List<ReadBooksDto>> GetReadBooksAsync(Guid userId);
 		public Task<List<FavoriteAuthorsDto>> GetFavoriteAuthorsAsync(Guid userId);
+		public Task<List<string>> GetFavoriteCategoriesAsync(Guid userId);
 		
 		
 	}

@@ -15,6 +15,8 @@ namespace API.Repositories.Interfaces
 		Task UpdateFriendRequestAsync(FriendRequest friendRequest);
 		Task RemoveFriendRequestAsync(FriendRequest friendRequest);
 		Task AddFriendAsync(Friend friend);
+		Task<bool> AreUsersFriendsAsync(Guid userId1, Guid userId2);
+		Task<bool> IsFriendRequestAlreadySentAsync(Guid fromUserId, Guid toUserId);
 		Task SaveChangesAsync();
 	}
 }

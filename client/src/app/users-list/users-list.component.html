@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="container">
+        <div class="row me-2 m-3">
+            <div class="col-2 mb-4" *ngFor="let user of userService.paginatedResult()?.items">
+                <app-user-card [user]="user"></app-user-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center mt-3">
+    <pagination [totalItems]="userService.paginatedResult()?.pagination?.totalItems ?? 0"
+        [itemsPerPage]="userService.paginatedResult()?.pagination?.itemsPerPage ?? 6" [maxSize]="12"
+        (pageChanged)="pageChanged($event)">
+    </pagination>
+</div>

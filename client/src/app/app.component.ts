@@ -46,12 +46,12 @@ export class AppComponent implements OnInit {
   }
 
   loadUsers(){
-    this.userService.getAllUsers().subscribe({
-      next: users => {
-        this.users = users
-      },
-      error : error => console.log(error)
-    })
+    // this.userService.getAllUsers().subscribe({
+    //   next: users => {
+    //     this.users = users
+    //   },
+    //   error : error => console.log(error)
+    // })
   }
 
   openChat(user: User): void{

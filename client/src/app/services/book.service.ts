@@ -54,8 +54,8 @@ export class BookService {
     return this.http.post("https://localhost:5001/api/userbook/grade", gradeModel);
   }
 
-  addReadBook(markBookAsReadModel: MarkBookAsRead){
-    return this.http.post("https://localhost:5001/api/userbook/", markBookAsReadModel);
+  addReadBook(markBookAsReadModel: MarkBookAsRead, options: any){
+    return this.http.post("https://localhost:5001/api/userbook/", markBookAsReadModel, options);
   }
 
 }

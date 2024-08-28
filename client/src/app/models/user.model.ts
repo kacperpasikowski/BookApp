@@ -8,4 +8,5 @@ export interface User{
     token: string;
     readBooks: BookDetail[];
     favoriteAuthors: AuthorDetail[];
+    friends: User[];
 }

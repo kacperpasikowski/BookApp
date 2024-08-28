@@ -1,0 +1,19 @@
+<div class="card mb-4  h-100">
+    <div class="card-img-wrapper">
+        <a  routerLink="/user/{{user.userName}}"><img src="{{user.userAvatarUrl}}" alt="{{user.userName}}" class="card-img-top"></a>
+    </div>
+    <div class="card-body p-1">
+        <h6 class="card-title text-center mb-2 mt-2" routerLink="/user/{{user.userName}}">
+            {{user.userName}}
+        </h6>
+        <p class="text-center mt-3">Favorite categories 
+            <span *ngIf="favoriteCategories.length >0">
+                <ul>
+                    <li *ngFor="let category of favoriteCategories">{{category}}</li>
+                </ul>
+            </span>
+        </p>
+        <button class="btn btn-primary m-1" (click)="onSendFriendRequest()">Add Friend!</button>
+    </div>
+
+</div>

@@ -21,16 +21,18 @@ namespace API.Services
 		private readonly ITokenService _tokenService;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IUserBookRepository _userBookRepository;
+		private readonly IFriendService _friendService;
 		private readonly IUserAuthorRepository _userAuthorRepository;
 
 		public UserService(IUserRepository userRepository, ITokenService tokenService, UserManager<AppUser> userManager,
-		IUserBookRepository userBookRepository, IUserAuthorRepository userAuthorRepository)
+		IUserBookRepository userBookRepository, IUserAuthorRepository userAuthorRepository, IFriendService friendService)
 		{
 			_userRepository = userRepository;
 			_tokenService = tokenService;
 			_userManager = userManager;
 			_userBookRepository = userBookRepository;
 			_userAuthorRepository = userAuthorRepository;
+			_friendService = friendService;
 		}
 
 		public async Task<PagedList<GetAllUsersDto>> GetAllUsersAsync(UserParams userParams)
@@ -43,8 +45,9 @@ namespace API.Services
 				var roles = await _userManager.GetRolesAsync(user);
 				var readBooks = await GetReadBooksAsync(user.Id);
 				var favoriteAuthors = await GetFavoriteAuthorsAsync(user.Id);
+				var friends = await _friendService.GetFriendsAsync(user.Id);
 
-				
+
 
 				var userDto = new GetAllUsersDto
 				{
@@ -54,7 +57,8 @@ namespace API.Services
 					UserAvatarUrl = user.UserAvatarUrl,
 					Roles = roles.ToList(),
 					ReadBooks = readBooks,
-					FavoriteAuthors = favoriteAuthors
+					FavoriteAuthors = favoriteAuthors,
+					Friends = friends.ToList()
 
 				};
 				userDtos.Add(userDto);
@@ -75,6 +79,8 @@ namespace API.Services
 			var roles = await _userManager.GetRolesAsync(user);
 			var readBooks = await GetReadBooksAsync(user.Id);
 			var favoriteAuthors = await GetFavoriteAuthorsAsync(user.Id);
+			var friends = await _friendService.GetFriendsAsync(user.Id);
+
 
 
 
@@ -86,8 +92,8 @@ namespace API.Services
 				UserAvatarUrl = user.UserAvatarUrl,
 				Roles = roles.ToList(),
 				ReadBooks = readBooks,
-				FavoriteAuthors = favoriteAuthors
-
+				FavoriteAuthors = favoriteAuthors,
+				Friends = friends.ToList()
 			};
 
 		}
@@ -204,6 +210,17 @@ namespace API.Services
 				.ToList();
 		}
 
-
+		public async Task<List<string>> GetFavoriteCategoriesAsync(Guid userId)
+		{
+			var readBooks = await GetReadBooksAsync(userId);
+			var categories = readBooks
+				.GroupBy(b => b.CategoryName)
+				.OrderByDescending(g => g.Count())
+				.Select(g => g.Key)
+				.Take(3)
+				.ToList();
+			
+			return categories;
+		}
 	}
 }

@@ -51,8 +51,8 @@ export class AuthorService {
     return this.http.get<AuthorDetail[]>(this.apiUrl)
   }
 
-  addFavAuthor(model: MarkAuthorAsFavorite){
-    return this.http.post("https://localhost:5001/api/userauthor/",model);
+  addFavAuthor(model: MarkAuthorAsFavorite, options: any){
+    return this.http.post("https://localhost:5001/api/userauthor/",model, options);
   }
 
 

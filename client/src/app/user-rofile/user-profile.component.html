@@ -1,20 +1,18 @@
 <div *ngIf="user">
-    <div >
+    <div>
         <div class="profile-header">
             <img src="{{user.userAvatarUrl}}" alt="Profile Picture">
             <h1>{{ user.userName }}</h1>
             <p></p>
         </div>
-    
+
         <!-- Zawartość profilu -->
         <div class="profile-content">
-    
+
             <!-- Informacje kontaktowe -->
             <div class="profile-section profile-contact">
                 <h2>Contact Information</h2>
-    
             </div>
-    
             <!-- Ulubione książki -->
             <div class="profile-section profile-favorites">
                 <h2>Favorite Books</h2>
@@ -32,14 +30,32 @@
                     </li>
                 </ul>
             </div>
-    
-    
+            <div class="profile-section profile-favorites">
+                <h2>Friends</h2>
+                <ul class="read-books">
+                    <li *ngFor="let friend of user.friends">
+                        {{friend.userName}}
+                    </li>
+                </ul>
+            </div>
+            <div class="profile-section profile-favorites">
+                <h2>Friend requests:</h2>
+                <ul class="read-books">
+                    <li *ngFor="let request of pendingRequests">
+                        {{request.fromUserName}}
+                        <span><button class="btn btn-success" (click)="acceptFriendRequest(request.id)">Accept </button>
+                            <button class="btn btn-danger" (click)="rejectFriendRequest(request.id)">Decline </button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+
             <!-- Oceny i recenzje -->
 
-    
+
         </div>
     </div>
-    
-    
-</div>
 
+
+</div>

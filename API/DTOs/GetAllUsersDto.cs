@@ -15,6 +15,7 @@ namespace API.DTOs
 		public List<string> Roles { get; set; }
 		public List<ReadBooksDto> ReadBooks { get; set; }
 		public List<FavoriteAuthorsDto> FavoriteAuthors { get; set; }
+		public List<FriendDto> Friends { get; set; }
 		
 		
 	}

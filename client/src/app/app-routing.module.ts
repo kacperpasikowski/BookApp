@@ -12,6 +12,7 @@ import { UserProfileComponent } from './user-rofile/user-profile.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { authGuard } from './guards/auth.guard';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 const routes: Routes = [
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'admin/list', component: AdminBookListComponent},
   {path: 'login', component: LoginComponent},
   {path: 'user/:userName', component: UserProfileComponent},
+  {path: 'users', component: UsersListComponent , canActivate:[authGuard]},
   {path: '**', component: BookListComponent, pathMatch: 'full'},
   
   

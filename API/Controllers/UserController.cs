@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Extensions;
 using API.helpers;
 using API.Services;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,7 @@ namespace API.Controllers
 		public async Task<IActionResult>GetAllUsers([FromQuery] UserParams userParams)
 		{
 			var users = await _userService.GetAllUsersAsync(userParams);
+			Response.AddPaginationHeader(users);
 			return Ok(users);
 		}
 		[HttpGet("{userName}")]
@@ -44,6 +46,12 @@ namespace API.Controllers
 			}
 			
 			return BadRequest(result.Errors);
+		}
+		[HttpGet("{userId}/favorite-categories")]
+		public async Task<IActionResult> GetFavoriteCategories(Guid userId)
+		{
+			var categories = await _userService.GetFavoriteCategoriesAsync(userId);
+			return Ok(categories);
 		}
 	}
 }

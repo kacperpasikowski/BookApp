@@ -56,9 +56,6 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
 
   loadMessageThread(): void {
     if (this.selectedUser && !this.allMessagesLoaded) {
-
-
-
       this.messageService.getMessageThread(this.selectedUser.userName).subscribe({
         next: result => {
           if (result.items) {
@@ -136,7 +133,6 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
       error: error => console.log(error)
     })
   }
-
   closeChatWindow() {
     this.closeChat.emit();
     this.chatService.clearState();

@@ -6,6 +6,7 @@ import { BookSummary } from '../models/book-summary.model';
 import { AccountService } from '../services/account.service';
 import { User } from '../models/user.model';
 import { MarkAuthorAsFavorite } from '../models/add-fav-author-model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-author-detail',
@@ -16,6 +17,7 @@ export class AuthorDetailComponent implements OnInit {
   private authorService = inject(AuthorService);
   private route = inject(ActivatedRoute);
   private accountService = inject(AccountService);
+  private toastr = inject(ToastrService);
 
   author: AuthorDetail = {} as AuthorDetail;
   books: BookSummary[] = [];
@@ -58,16 +60,13 @@ export class AuthorDetailComponent implements OnInit {
   addAuthorToFavorites() : void {
     if (this.currentUser){
       const model: MarkAuthorAsFavorite = {authorId: this.author.id};
-      this.authorService.addFavAuthor(model).subscribe({
+      this.authorService.addFavAuthor(model, {headers: {skipErrorHandling: '400'}}).subscribe({
         next: () => {
-          console.log(`you have added ${this.author.name} as your favorite author` );
+          this.toastr.success(`You have added ${this.author.name} as your favorite author` );
           this.loadAuthor();
         },
-        error: error => console.log(error)
-      })
-    }
+        error: error => this.toastr.error("This author is already in your favorite authors collection")
+    })
   }
-
-
-
+  }
 }

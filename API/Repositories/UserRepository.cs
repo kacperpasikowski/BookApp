@@ -27,7 +27,7 @@ namespace API.Repositories
 		}
 		
 		
-		 public async Task<PagedList<AppUser>> GetAllUsersAsync(UserParams userParams)
+		public async Task<PagedList<AppUser>> GetAllUsersAsync(UserParams userParams)
 		{
 			var query =  _context.Users.AsQueryable();
 			

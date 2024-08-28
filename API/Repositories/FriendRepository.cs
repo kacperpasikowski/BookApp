@@ -64,6 +64,21 @@ namespace API.Repositories
 			await context.SaveChangesAsync();
 		}
 
-		
+		public async Task<bool> AreUsersFriendsAsync(Guid userId1, Guid userId2)
+		{
+			return await context.Friends.AnyAsync(f=>
+				(f.UserId1 == userId1 && f.UserId2 == userId2) ||
+				(f.UserId1 == userId2 && f.UserId2 == userId1)
+			);
+		}
+
+		public async Task<bool> IsFriendRequestAlreadySentAsync(Guid fromUserId, Guid toUserId)
+		{
+			return await context.FriendRequests.AnyAsync(fr=>
+			fr.FromUserId == fromUserId &&
+			fr.ToUserId == toUserId &&
+			fr.Status == FriendshipStatus.Pending
+			);
+		}
 	}
 }

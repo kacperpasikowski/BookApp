@@ -30,6 +30,9 @@ import { LoginComponent } from './login/login.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { UserProfileComponent, } from './user-rofile/user-profile.component'
+import { ToastrModule } from 'ngx-toastr';
+import { UserCardComponent } from './user-card/user-card.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 
 
@@ -49,7 +52,9 @@ import { UserProfileComponent, } from './user-rofile/user-profile.component'
     SidebarComponent,
     ChatWindowComponent,
     LoginComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserCardComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,
@@ -69,10 +74,16 @@ import { UserProfileComponent, } from './user-rofile/user-profile.component'
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MatDividerModule
+    MatDividerModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-left',
+      preventDuplicates: true
+    })
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true},
+    // {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })

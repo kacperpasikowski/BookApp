@@ -11,22 +11,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
 {
-	public class FriendService(IFriendsRepository friendRepository, DataContext context) : IFriendService
+	public class FriendService(IFriendsRepository friendRepository) : IFriendService
 	{
 
 		public async Task SendFriendRequestAsync(Guid fromUserId, Guid toUserId)
 		{
-			var fromUserExists = await context.Users.AnyAsync(u => u.Id == fromUserId);
-			var toUserExists = await context.Users.AnyAsync(u => u.Id == toUserId);
-
-			if (!fromUserExists)
+			
+			if(fromUserId == toUserId)
 			{
-				throw new InvalidOperationException("Sender users do not exist.");
+				throw new InvalidOperationException("you cannot send a friend request to yourself!");
 			}
-
-			if (!toUserExists)
+			
+			var isAlreadyFriend = await friendRepository.AreUsersFriendsAsync(fromUserId, toUserId);
+			if(isAlreadyFriend)
 			{
-				throw new InvalidOperationException("Receiver users do not exist.");
+				throw new InvalidOperationException("you are already friends with this user.");
+			}
+			
+			var isRequestAlreadySent = await friendRepository.IsFriendRequestAlreadySentAsync(fromUserId,toUserId);
+			if(isRequestAlreadySent)
+			{
+				throw new InvalidOperationException("You have already sent a friend request to this user!");
 			}
 
 			var friendRequest = new FriendRequest
@@ -80,6 +85,7 @@ namespace API.Services
 			{
 				Id = r.Id,
 				FromUserId = r.FromUserId,
+				FromUserName = r.Requester.UserName,
 				ToUserId = r.ToUserId
 			});
 			

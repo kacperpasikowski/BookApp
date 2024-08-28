@@ -7,6 +7,7 @@ import { GradeModel } from '../models/grade-model';
 import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
 import { MarkBookAsRead } from '../models/add-read-book-model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bookdetail',
@@ -17,6 +18,7 @@ export class BookdetailComponent implements OnInit, OnDestroy {
   private bookService = inject(BookService);
   private route = inject(ActivatedRoute);
   private accountService = inject(AccountService);
+  private toastr = inject(ToastrService);
   book: BookDetail = {} as BookDetail;
   routeSubscription: Subscription | undefined;
   selectedGrade = 0;
@@ -89,7 +91,7 @@ export class BookdetailComponent implements OnInit, OnDestroy {
       const gradeModel: GradeModel = {bookId: this.book.id, grade: this.selectedGrade};
       this.bookService.addOrUpdateGrade(gradeModel).subscribe({
         next: () => {
-          console.log("updadet succesfully");
+          this.toastr.success("Completed")
           this.loadBook(this.book.id);
         },
         error: error => console.log(error)
@@ -100,12 +102,12 @@ export class BookdetailComponent implements OnInit, OnDestroy {
   markBookAsRead(): void {
     if(this.currentUser){
       const model: MarkBookAsRead = { bookId: this.book.id, dateRead: new Date().toISOString().split('T')[0]};
-      this.bookService.addReadBook(model).subscribe({
+      this.bookService.addReadBook(model, {headers: {skipErrorHandling: '400'}}).subscribe({
         next: () => {
-          console.log("you have added book to your profile!");
+          this.toastr.success("You have added book to your collection")
           this.loadBook(this.book.id);
         },
-        error: error => console.log(error)
+        error: error => this.toastr.error("This book is already in your collection")
       })
     }
   }
