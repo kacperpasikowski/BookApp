@@ -1,8 +1,9 @@
-import { Component, HostListener, inject, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject, OnInit, Output } from '@angular/core';
 import { User } from './models/user.model';
 import { UserService } from './services/user.service';
 import { AccountService } from './services/account.service';
 import { Observable } from 'rxjs';
+import { SidebarService } from './services/sidebar.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,9 @@ export class AppComponent implements OnInit {
   selectedUser: User | null = null;
   chatWindows: User[] = [];
   private accountService = inject(AccountService);
+  sidebarService = inject(SidebarService);
   currentUser$: Observable<User | null> | undefined ;
+  cdr = inject(ChangeDetectorRef)
   
 
   constructor(private userService: UserService){
@@ -31,41 +34,33 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loadUsers();
-  
   }
 
 
-  sendMessage(user: any) {
-    console.log(`Sending message to ${user.name}`);
-    // Implementuj logikę wysyłania wiadomości
-  }
 
   toggleUserPanel() {
     this.userPanelOpened = !this.userPanelOpened;
   }
 
-  loadUsers(){
-    // this.userService.getAllUsers().subscribe({
-    //   next: users => {
-    //     this.users = users
-    //   },
-    //   error : error => console.log(error)
-    // })
-  }
+  
 
-  openChat(user: User): void{
-    const existingChatIndex = this.chatWindows.findIndex(chat => chat.id === user.id);
+  openChat(user: User): void {
 
-    if(existingChatIndex === -1){
-      if(this.chatWindows.length <4){
-        this.chatWindows.push(user);
-      }else{
-        this.chatWindows.shift();
-        this.chatWindows.push(user);
-      }
+  const existingChat = this.chatWindows.find(chatWindow => chatWindow.userName === user.userName);
+
+  if (!existingChat) { 
+    if (this.chatWindows.length < 4) {
+      this.chatWindows.push(user);
+    } else {
+      this.chatWindows.shift();
+      this.chatWindows.push(user);
     }
+  } 
+
+
+     
   }
+  
 
   closeChat(index: number): void {
     this.chatWindows.splice(index, 1);

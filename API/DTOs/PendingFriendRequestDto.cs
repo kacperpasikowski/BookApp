@@ -10,6 +10,7 @@ namespace API.DTOs
 		public Guid Id { get; set; }
 		public Guid FromUserId { get; set; }
 		public string FromUserName { get; set; }
+		public string FromUserAvatarUrl { get; set; }
 		public Guid ToUserId { get; set; }
 	}
 }

@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FriendRequest } from '../models/friend-request-model';
 
 @Component({
-  selector: 'app-user-rofile',
+  selector: 'app-user-profile',
   templateUrl: './user-Profile.component.html',
   styleUrls: ['./user-Profile.component.css']
 })

@@ -21,7 +21,6 @@
                         <i class="fa fa-bars pe-2"></i>Books
                     </a>
                 </li>
-                
             </ul>
             <form class="d-flex align-items-center w-100 form-search" (submit)="onSearch()" autocomplete="off">
                 <input type="search" class="form-control" placeholder="Search..." name="searchQuery" [(ngModel)]="query"
@@ -34,10 +33,30 @@
                         <i class="fa fa-bookmark pe-2"></i> Authors
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="currentUser">
                     <a class="nav-link d-flex align-items-center pe-1" routerLink="users">
-                        <i class="fa fa-user pe-2"></i> Users
+                        Users
                     </a>
+                </li>
+
+                <li class="nav-item" style="cursor: pointer; position:relative" *ngIf="currentUser" dropdown>
+                    <a class="nav-link" dropdownToggle id="friendRequestsDropdown" aria-expanded="false">
+                        <i class="fa fa-user"></i>
+                        <span *ngIf="pendingRequests.length > 0" class="badge bg-danger ">{{ pendingRequests.length < 9? pendingRequests.length : '9+' }}</span>
+                    </a>
+                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="friendRequestsDropdown">
+                        <li *ngFor="let request of pendingRequests" class="dropdown-item">
+
+                            <span><img src="{{request.fromUserAvatarUrl}}" alt="" class="user-avatar"></span> <span routerLink="/user/{{request.fromUserName}}"> {{ request.fromUserName }} sent you a friend request!</span>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-sm btn-success me-1" (click)="acceptFriendRequest(request.id)">Accept</button>
+                                <button class="btn btn-sm btn-danger" (click)="rejectFriendRequest(request.id)">Reject</button>
+                            </div>
+                        </li>
+                        <li *ngIf="pendingRequests.length === 0" class="dropdown-item text-center">
+                            You have no friend requests.
+                        </li>
+                    </ul>
                 </li>
                 
                 <li class="nav-item pt-1 ms-1" *ngIf="currentUser">
@@ -47,7 +66,7 @@
                 </li>
                 <li class="nav-item" *ngIf="!currentUser">
                     <a class="nav-link d-flex align-items-center me-3" routerLink="login">
-                         Login
+                        Login
                     </a>
                 </li>
                 <div class="btn-group" dropdown *ngIf="currentUser">

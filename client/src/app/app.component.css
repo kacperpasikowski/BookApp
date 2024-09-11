@@ -1,10 +1,32 @@
 .example-container {
-    height: 100vh;
-
+    height: 100vh; /* Ustaw na pełną wysokość przeglądarki */
+    overflow: hidden;
 }
 
+mat-drawer-container {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+router-outlet {
+    flex: 1;
+    overflow-y: auto;
+}
+
+
+
+
 .sidenav {
-    width: 100px;
+    position: fixed; /* Sidebar będzie przyklejony do ekranu */
+    right: 0; /* Po prawej stronie */
+    top: 0; /* Zaczyna od góry */
+    height: 100vh; /* Zajmuje pełną wysokość przeglądarki */
+    width: 230px; /* Szerokość sidebara */
+    background-color: white; /* Możesz ustawić tło, jeśli potrzeba */
+    overflow-y: auto; /* Przewijanie zawartości sidebara, jeśli będzie zbyt długa */
+    z-index: 1000; /* Upewnij się, że ma odpowiedni z-index, żeby był nad innymi elementami */
 }
 
 

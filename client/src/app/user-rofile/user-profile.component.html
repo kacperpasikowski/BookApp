@@ -1,61 +1,63 @@
-<div *ngIf="user">
-    <div>
-        <div class="profile-header">
-            <img src="{{user.userAvatarUrl}}" alt="Profile Picture">
+<div *ngIf="user" class="profile-container">
+    <div class="profile-header">
+        <img class="profile-picture" [src]="user.userAvatarUrl" alt="Profile Picture">
+        <div class="profile-details">
             <h1>{{ user.userName }}</h1>
-            <p></p>
-        </div>
-
-        <!-- Zawartość profilu -->
-        <div class="profile-content">
-
-            <!-- Informacje kontaktowe -->
-            <div class="profile-section profile-contact">
-                <h2>Contact Information</h2>
-            </div>
-            <!-- Ulubione książki -->
-            <div class="profile-section profile-favorites">
-                <h2>Favorite Books</h2>
-                <ul class="read-books">
-                    <li *ngFor="let book of user.readBooks">
-                        {{book.title}}
-                    </li>
-                </ul>
-            </div>
-            <div class="profile-section profile-favorites">
-                <h2>Favorite Authors</h2>
-                <ul class="read-books">
-                    <li *ngFor="let author of user.favoriteAuthors">
-                        {{author.name}}
-                    </li>
-                </ul>
-            </div>
-            <div class="profile-section profile-favorites">
-                <h2>Friends</h2>
-                <ul class="read-books">
-                    <li *ngFor="let friend of user.friends">
-                        {{friend.userName}}
-                    </li>
-                </ul>
-            </div>
-            <div class="profile-section profile-favorites">
-                <h2>Friend requests:</h2>
-                <ul class="read-books">
-                    <li *ngFor="let request of pendingRequests">
-                        {{request.fromUserName}}
-                        <span><button class="btn btn-success" (click)="acceptFriendRequest(request.id)">Accept </button>
-                            <button class="btn btn-danger" (click)="rejectFriendRequest(request.id)">Decline </button>
-                        </span>
-                    </li>
-                </ul>
-            </div>
-
-
-            <!-- Oceny i recenzje -->
-
 
         </div>
     </div>
 
+    <!-- Zawartość profilu -->
+    <div class="profile-content">
 
+        <!-- Informacje kontaktowe -->
+        <div class="profile-section">
+            <h2>Contact Information</h2>
+            <!-- Dodaj tutaj więcej szczegółów o użytkowniku -->
+        </div>
+
+        <!-- Ulubione książki -->
+        <div class="profile-section">
+            <h2>Favorite Books</h2>
+            <ul class="read-books">
+                <li *ngFor="let book of user.readBooks" class="book-item">
+                    <img class="book-img" [src]="book.bookAvatarUrl" alt="{{book.title}}">
+                    <a [routerLink]="['/book', book.id]">{{ book.title }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Ulubieni autorzy -->
+        <div class="profile-section">
+            <h2>Favorite Authors</h2>
+            <ul class="read-books">
+                <li *ngFor="let author of user.favoriteAuthors">
+                    <a [routerLink]="['/author', author.id]">{{ author.name }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Znajomi -->
+        <div class="profile-section">
+            <h2>Friends</h2>
+            <ul class="read-books">
+                <li *ngFor="let friend of user.friends">{{ friend.userName }}</li>
+            </ul>
+        </div>
+
+        <!-- Zaproszenia do znajomych -->
+        <div class="profile-section">
+            <h2>Friend Requests</h2>
+            <ul class="read-books">
+                <li *ngFor="let request of pendingRequests">
+                    {{ request.fromUserName }}
+                    <span>
+                        <button class="btn btn-success" (click)="acceptFriendRequest(request.id)">Accept</button>
+                        <button class="btn btn-danger" (click)="rejectFriendRequest(request.id)">Decline</button>
+                    </span>
+                </li>
+                <p> Siemano </p>
+            </ul>
+        </div>
+    </div>
 </div>

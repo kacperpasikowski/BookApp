@@ -86,6 +86,7 @@ namespace API.Services
 				Id = r.Id,
 				FromUserId = r.FromUserId,
 				FromUserName = r.Requester.UserName,
+				FromUserAvatarUrl = r.Requester.UserAvatarUrl,
 				ToUserId = r.ToUserId
 			});
 			

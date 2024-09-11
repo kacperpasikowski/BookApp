@@ -33,7 +33,6 @@ export class SidebarComponent implements OnInit {
 
   selectUser(user: User): void {
     this.userSelected.emit(user);
-    console.log("user selected:", user);
   }
 
 

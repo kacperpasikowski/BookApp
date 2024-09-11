@@ -9,6 +9,7 @@ export class SidebarService {
   sidebarOpened$ = this.sidebarOpenedSubject.asObservable();
 
   toggleSidebar() {
+    
     this.sidebarOpenedSubject.next(!this.sidebarOpenedSubject.value);
   }
 

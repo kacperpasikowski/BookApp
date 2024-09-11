@@ -123,3 +123,38 @@
     padding: 16px;
     overflow: auto;
 }
+
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.nav-item .badge {
+    position: absolute;
+    top: 12px;
+    right: 3px;
+    transform: translate(50%, -50%);
+    font-size: 0.75rem;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.user-avatar {
+    height: 35px;
+    border-radius: 50%;
+}

@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output } from '@angular/core';
+import { Component, effect, ElementRef, EventEmitter, HostListener, inject, Inject, OnInit, Output } from '@angular/core';
 import { BookDetail } from '../models/book-detail.model';
 import { BookService } from '../services/book.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,8 @@ import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
 import { SearchService } from '../services/search.service';
 import { SearchResult } from '../models/search-result-model';
+import { UserService } from '../services/user.service';
+import { FriendRequest } from '../models/friend-request-model';
 
 @Component({
   selector: 'app-nav',
@@ -19,6 +21,8 @@ export class NavComponent  implements OnInit{
   pageNumber: number = 1;
   pageSize: number = 10;
   currentUser: User | null = null;
+  userService = inject(UserService);
+  pendingRequests: FriendRequest[] = [];
   @Output() toggleUserPanel = new EventEmitter<void>();
 
 
@@ -30,6 +34,38 @@ export class NavComponent  implements OnInit{
   ngOnInit(): void {
     this.accountService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      this.loadPendingRequests();
+    })
+    
+  }
+
+
+
+  loadPendingRequests() {
+    this.userService.getPendingFriendRequest().subscribe({
+      next: requests => {
+        this.pendingRequests = requests
+      },
+      error: error => console.log(error)
+    })
+  }
+
+  acceptFriendRequest(requestId: string){
+    this.userService.acceptFriendRequest(requestId).subscribe({
+      next: () => {
+        this.loadPendingRequests();
+        this.ngOnInit();
+      },
+      error: error => console.log(error)
+    })
+  }
+
+  rejectFriendRequest(requestId: string){
+    this.userService.rejectFriendRequest(requestId).subscribe({
+      next: () => {
+        this.ngOnInit();
+      },
+      error: error => console.log(error)
     })
   }
 
@@ -69,6 +105,9 @@ export class NavComponent  implements OnInit{
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
+    
+    
+    
   }
   
   

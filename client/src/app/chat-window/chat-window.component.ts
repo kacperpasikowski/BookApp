@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, inject, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { User } from '../models/user.model';
 import { Message } from '../models/messsage-model';
 import { MessageService } from '../services/message.service';
@@ -133,6 +133,12 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
       error: error => console.log(error)
     })
   }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    this.closeChatWindow();  // Zamknięcie czatu przy naciśnięciu klawisza Escape
+  }
+
   closeChatWindow() {
     this.closeChat.emit();
     this.chatService.clearState();

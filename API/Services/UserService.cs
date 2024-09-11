@@ -189,6 +189,7 @@ namespace API.Services
 				.Where(rb => rb.Book != null)
 				.Select(rb => new ReadBooksDto
 				{
+					Id = rb.BookId,
 					Title = rb.Book.Title,
 					AuthorName = rb.Book.BookAuthors.FirstOrDefault()?.Author?.Name ?? "Unknown Author",
 					CategoryName = rb.Book.BookCategories.FirstOrDefault()?.Category?.Name ?? "No Category",
@@ -204,6 +205,7 @@ namespace API.Services
 				.Where(fa => fa.Author != null)
 				.Select(fa => new FavoriteAuthorsDto
 				{
+					Id = fa.AuthorId,
 					Name = fa.Author.Name,
 					AuthorAvatarUrl = fa.Author.AuthorAvatarUrl
 				})
